@@ -8,7 +8,7 @@ Just run the following command :
 
     gem install amistad
   
-Then in your gem file add the following line :
+Then in your Gemfile add the following line :
 
     gem 'amistad'
   
