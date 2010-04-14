@@ -9,6 +9,8 @@ ActiveRecord::Base.establish_connection(
   :database => "tmp/amistad.sqlite3.db"
 )
 
+ActiveRecord::Migration.verbose = false
+
 ActiveRecord::Schema.define do
   create_table :users, :force => true do |t|
     t.string :name, :null => false
