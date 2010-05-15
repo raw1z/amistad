@@ -6,7 +6,7 @@ require File.join(File.dirname(__FILE__), '../lib/amistad')
 
 ActiveRecord::Base.establish_connection(
   :adapter => "sqlite3",
-  :database => "tmp/amistad.sqlite3.db"
+  :database => "spec/db/amistad.sqlite3.db"
 )
 
 ActiveRecord::Migration.verbose = false
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define do
   end
 end
 
-ActiveRecord::Base.logger = Logger.new(File.open('tmp/database.log', 'a'))
+ActiveRecord::Base.logger = Logger.new(File.open('spec/db/database.log', 'a'))
 
 class User < ActiveRecord::Base
   acts_as_friend
