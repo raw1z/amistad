@@ -1,3 +1,4 @@
-spec/db/*
+spec/db/*.log
+spec/db/*.db
 pkg/*
 *.gemspec
