@@ -69,6 +69,13 @@ module Amistad
         friends.include?(user)
       end
       
+      def was_invited_by?(user)
+        inverse_friendships.each do |friendship|
+          return true if friendship.user == user
+        end
+        false
+      end
+      
       def common_friends_with(user)
         self.friends & user.friends
       end

@@ -81,6 +81,11 @@ It is also possible to check if two users are friends :
     @john.is_friend_with? @jane #=> true
     @victoria.is_friend_with? @john #=> false
     
+You can also check if a user invited anoter :
+
+    @john.was_invited_by? @john #=> true
+    @victoria.was_invited_by? @john #=> false
+    
 You can also find the friends that two users have in common :
 
     @john.common_friend_with(@peter) #=> [@jane]

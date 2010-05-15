@@ -88,6 +88,14 @@ describe Amistad::FriendModel do
       @john.is_friend_with?(@peter).should == false
     end
     
+    it "checks if a user was invited by another" do
+      @jane.was_invited_by?(@john).should == true
+      @james.was_invited_by?(@john).should == true
+      
+      @john.was_invited_by?(@jane).should == false
+      @victoria.was_invited_by?(@john).should == false
+    end
+    
     it "lists the friends he has in common with another user" do
       @james.common_friends_with(@mary).count.should == 1
       @james.common_friends_with(@mary).should include(@john)
