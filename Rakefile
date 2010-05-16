@@ -21,6 +21,8 @@ begin
   Spec::Rake::SpecTask.new(:spec) do |t|
     t.spec_opts = ["--format", "specdoc", "--color"]
     t.spec_files = Dir.glob('spec/**/*_spec.rb')
+    
+    Dir.mkdir('spec/db') if not File.directory?('spec/db')
   end
 rescue LoadError
   puts "Rspec not available. Install it with: gem install rspec"
