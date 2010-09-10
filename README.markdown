@@ -16,12 +16,12 @@ Then in your Gemfile add the following line :
 
 First generate a friendship model :
 
-    rails generate friendship  
+    rails generate amistad:install  
     
 This commands create a new model called __friendship__ in *'app/models'* :
 
     class Friendship < ActiveRecord::Base
-      acts_as_friendship
+      include Amistad::FriendshipModel
     end
 
 It also creates a new migration for the friendship model so don't forget to migrate your database :
@@ -31,7 +31,7 @@ It also creates a new migration for the friendship model so don't forget to migr
 Then activate __amistad__ in your user model :
 
     class User < ActiveRecord::Base  
-      acts_as_friend  
+      include Amistad::FriendModel
     end
     
 ## Friendships management ##
