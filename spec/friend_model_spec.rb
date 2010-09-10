@@ -13,12 +13,12 @@ describe Amistad::FriendModel do
       Friendship.delete_all
     end
     
-    it "requests frienships with other users" do
+    it "requests friendships with other users" do
       @john.invite(@jane).should == true
       @victoria.invite(@john).should == true
     end
 
-    it "approves frienships requested by other users" do
+    it "approves friendships requested by other users" do
       @john.invite(@jane).should == true
       @victoria.invite(@john).should == true
 

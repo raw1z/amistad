@@ -1,3 +1,3 @@
 class Friendship < ActiveRecord::Base
-  acts_as_friendship
+  include Amistad::FriendshipModel
 end

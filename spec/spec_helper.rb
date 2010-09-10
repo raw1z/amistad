@@ -1,12 +1,14 @@
-require 'rubygems'
+$LOAD_PATH.unshift(File.dirname(__FILE__))
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+require 'rspec/core'
+require 'rspec/autorun'
 require 'active_record'
 require 'logger'
-
-require File.join(File.dirname(__FILE__), '../lib/amistad')
+require 'amistad'
 
 ActiveRecord::Base.establish_connection(
   :adapter => "sqlite3",
-  :database => "spec/db/amistad.sqlite3.db"
+  :database => ":memory:"
 )
 
 ActiveRecord::Migration.verbose = false
@@ -23,12 +25,10 @@ ActiveRecord::Schema.define do
   end
 end
 
-ActiveRecord::Base.logger = Logger.new(File.open('spec/db/database.log', 'a'))
-
 class User < ActiveRecord::Base
-  acts_as_friend
+  include Amistad::FriendModel
 end
 
 class Friendship < ActiveRecord::Base
-  acts_as_friendship
+  include Amistad::FriendshipModel
 end

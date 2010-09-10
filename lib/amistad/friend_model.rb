@@ -1,11 +1,9 @@
 module Amistad
   module FriendModel
-    def self.included(base)
-      base.extend ClassMethods
-    end
-
-    module ClassMethods
-      def acts_as_friend
+    def self.included(receiver)
+      receiver.class_exec do
+        include InstanceMethods
+        
         has_many  :friendships
         
         has_many  :pending_invited,
@@ -29,14 +27,11 @@ module Amistad
                   :through => :inverse_friendships,
                   :source => :user,
                   :conditions => {:'friendships.pending' => false}
-        
-        class_eval <<-EOV
-          include Amistad::FriendModel::InstanceMethods
-        EOV
       end
     end
 
     module InstanceMethods
+      # suggest a user to become a friend. If the operation succeeds, the method returns true, else false
       def invite(user)
         return false if user == self
         
@@ -47,6 +42,7 @@ module Amistad
         friendship.save
       end
       
+      # approve a friendship invitation. If the operation succeeds, the method returns true, else false
       def approve(user)
         friendship = find_any_friendship_with(user)
         return false if friendship.nil?
@@ -54,10 +50,12 @@ module Amistad
         friendship.save
       end
       
+      # returns the list of approved friends
       def friends
         self.invited(true) + self.invited_by(true)
       end
       
+      # deletes a friendship
       def remove(user)
         friendship = find_any_friendship_with(user)
         return false if friendship.nil?
@@ -65,10 +63,12 @@ module Amistad
         friendship.destroyed?
       end
       
+      # checks if a user is a friend
       def is_friend_with?(user)
         friends.include?(user)
       end
       
+      # checks if a user send a friendship's invitation
       def was_invited_by?(user)
         inverse_friendships.each do |friendship|
           return true if friendship.user == user
@@ -76,6 +76,7 @@ module Amistad
         false
       end
       
+      # return the list of the ones among its friends which are also friend with the given use
       def common_friends_with(user)
         self.friends & user.friends
       end
@@ -94,6 +95,3 @@ module Amistad
   end
 end
 
-class ActiveRecord::Base
-  include Amistad::FriendModel
-end
