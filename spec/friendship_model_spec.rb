@@ -18,4 +18,9 @@ describe Amistad::FriendshipModel do
     friendship = Friendship.create(:user_id => 1, :friend_id => 2)
     friendship.pending?.should == true
   end
+  
+  it "is not in a blocked state when created" do
+    friendship = Friendship.create(:user_id => 1, :friend_id => 2)
+    friendship.blocked?.should == false
+  end
 end

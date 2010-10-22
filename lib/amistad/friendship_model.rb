@@ -18,6 +18,11 @@ module Amistad
       def pending?
         self.pending
       end
+      
+      # returns true if a friendship has been blocked, else false
+      def blocked?
+        self.blocked
+      end
     end
     
   end

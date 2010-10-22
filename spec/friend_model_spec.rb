@@ -153,5 +153,43 @@ describe Amistad::FriendModel do
       @peter.pending_invited.should_not include(@victoria)
     end
   end
+  
+  context "when blocking friendships" do
+    before(:each) do
+      Friendship.delete_all
+
+      @john.invite(@jane).should == true
+      @john.invite(@james).should == true
+      @john.invite(@david).should == true
+      @james.approve(@john).should == true
+      @david.block(@john).should == true
+      @david.block(@victoria).should == false
+    end
+    
+    it "should return the correct number of friends blocked" do
+      @david.blocked.count.should == 1
+      @david.blocked.should include(@john)
+    end
+    
+    it "should not return any blocked friends in friends or invited or pending invites" do
+      @john.friends.count.should == 1
+      @john.friends.should include(@james)
+      @john.friends.should_not include(@david)
+
+      @john.invited.count.should == 1
+      @john.invited.should_not include(@david)
+      @john.invited.should include(@james)
+      
+      @john.pending_invited.count.should == 1
+      @john.pending_invited.should_not include(@david)
+      @john.pending_invited.should include(@jane)
+      
+      @david.friends.count.should == 0
+    end
+    
+    it "should not return any blocked friends for the friend who was blocked" do
+      @john.blocked.count.should == 0
+    end    
+  end
 
 end

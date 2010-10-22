@@ -98,6 +98,17 @@ The __remove()__ method allow a user to remove its friendships :
     @john.remove @peter
     @john.remove @victoria
     
+### Blocking friendships ###
+
+The __block()__ method allow a user to block a friendship with another user :
+
+    @john.invite @jane
+    @jane.block @john
+    
+To get the blocked users :
+
+    @jane.blocked #=> [@john]
+    
 ## Testing the gem ##
 
 It is possible to test amistad by running the following command from the gem directory:
