@@ -88,7 +88,7 @@ You can also check if a user invited anoter :
     
 You can also find the friends that two users have in common :
 
-    @john.common_friend_with(@peter) #=> [@jane]
+    @john.common_friends_with(@peter) #=> [@jane]
     
 ### Removing friendships ###
 
