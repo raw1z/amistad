@@ -191,4 +191,35 @@ describe Amistad::FriendModel do
       @john.blocked.count.should == 0
     end    
   end
+
+  context "when unblocking friendships" do
+    before(:each) do
+      Friendship.delete_all
+
+      @john.block(@victoria).should == false
+      @john.unblock(@victoria).should == false
+      @john.invite(@david).should == true
+      @david.approve(@john).should == true
+      @david.block(@john).should == true
+      @david.unblock(@john).should == true
+    end
+
+    it "should return the correct number of friends blocked" do
+      @john.blocked.count.should == 0
+    end
+
+    it "should return unblocked users in friends" do
+      @john.friends.count.should == 1
+      @john.friends.should include(@david)
+      @john.friends.should_not include(@victoria)
+
+      @john.invited.count.should == 1
+      @john.invited.should include(@david)
+      @john.invited.should_not include(@victoria)
+      
+      @john.pending_invited.count.should == 0
+      @john.pending_invited.should_not include(@david)
+      @john.pending_invited.should_not include(@victoria)
+    end
+  end
 end
