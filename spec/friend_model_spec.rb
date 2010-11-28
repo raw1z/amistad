@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + '/spec_helper')
+require 'spec_helper'
 
 describe Amistad::FriendModel do
   
@@ -191,5 +191,4 @@ describe Amistad::FriendModel do
       @john.blocked.count.should == 0
     end    
   end
-
 end
