@@ -112,7 +112,17 @@ The __block()__ method allow a user to block a friendship with another user :
 To get the blocked users :
 
     @jane.blocked #=> [@john]
-    
+
+### Unblocking friendship ###
+
+The __unblock()__ method allow a user to unblock previously blocked friendship with anothe user :
+
+    @jane.block @john
+    @jane.blocked #=> [@john]
+
+    @jane.unblock @john
+    @jane.blocked #=> []
+
 ## Testing the gem ##
 
 It is possible to test amistad by running the following command from the gem directory:
