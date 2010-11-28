@@ -11,7 +11,11 @@ Just run the following command :
 Then in your Gemfile add the following line :
 
     gem 'amistad'
-  
+
+And run
+
+    bundle install
+
 ## Usage ##
 
 First generate a friendship model :

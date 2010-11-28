@@ -108,4 +108,3 @@ module Amistad
     end    
   end
 end
-
