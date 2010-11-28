@@ -115,7 +115,7 @@ To get the blocked users :
 
 ### Unblocking friendship ###
 
-The __unblock()__ method allow a user to unblock previously blocked friendship with anothe user :
+The __unblock()__ method allow a user to unblock previously blocked friendship with another user :
 
     @jane.block @john
     @jane.blocked #=> [@john]

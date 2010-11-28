@@ -7,6 +7,7 @@ module Amistad
         
         belongs_to :user
         belongs_to :friend, :class_name => "User", :foreign_key => "friend_id"
+        belongs_to :blocker, :class_name => "User", :foreign_key => "blocker_id"
         
         validates_presence_of :user_id, :friend_id
         validates_uniqueness_of :friend_id, :scope => :user_id
@@ -21,7 +22,7 @@ module Amistad
       
       # returns true if a friendship has been blocked, else false
       def blocked?
-        self.blocked
+        !self.blocker.nil?
       end
     end
     

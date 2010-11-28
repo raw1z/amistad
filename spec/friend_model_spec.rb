@@ -204,8 +204,20 @@ describe Amistad::FriendModel do
       @david.unblock(@john).should == true
     end
 
+    it "should allow to unblock only user who blocked friendship" do
+      @john.invite(@jane).should == true
+      @jane.approve(@john).should == true
+      @jane.block(@john).should == true
+      @john.unblock(@jane).should == false
+      @jane.unblock(@john).should == true
+      @john.block(@jane).should == true
+      @jane.unblock(@john).should == false
+      @john.unblock(@jane).should == true
+    end
+
     it "should return the correct number of friends blocked" do
       @john.blocked.count.should == 0
+      @david.blocked.count.should == 0
     end
 
     it "should return unblocked users in friends" do
