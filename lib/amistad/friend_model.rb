@@ -88,13 +88,22 @@ module Amistad
       def is_friend_with?(user)
         friends.include?(user)
       end
-      
+
+      def is_connected_with?(user)
+        !find_any_friendship_with(user).nil?
+      end
+
       # checks if a user send a friendship's invitation
       def was_invited_by?(user)
-        inverse_friendships.each do |friendship|
-          return true if friendship.user == user
-        end
-        false
+        friendship = find_any_friendship_with(user)
+        return false if friendship.nil?
+        friendship.user == user
+      end
+
+      def has_invited?(user)
+        friendship = find_any_friendship_with(user)
+        return false if friendship.nil?
+        friendship.friend == user
       end
       
       # return the list of the ones among its friends which are also friend with the given use
