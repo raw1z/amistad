@@ -166,6 +166,11 @@ describe Amistad::FriendModel do
       @david.block(@victoria).should == false
     end
     
+    it "should allow to block only invited user" do
+      @jane.block(@john).should == true
+      @john.block(@jane).should == false
+    end
+    
     it "should return the correct number of friends blocked" do
       @david.blocked.count.should == 1
       @david.blocked.should include(@john)
@@ -196,23 +201,19 @@ describe Amistad::FriendModel do
     before(:each) do
       Friendship.delete_all
 
-      @john.block(@victoria).should == false
-      @john.unblock(@victoria).should == false
+      @john.invite(@jane).should == true
       @john.invite(@david).should == true
       @david.approve(@john).should == true
       @david.block(@john).should == true
       @david.unblock(@john).should == true
+      @john.unblock(@victoria).should == false
     end
 
-    it "should allow to unblock only user who blocked friendship" do
-      @john.invite(@jane).should == true
+    it "should allow to unblock only invited user" do
       @jane.approve(@john).should == true
       @jane.block(@john).should == true
       @john.unblock(@jane).should == false
       @jane.unblock(@john).should == true
-      @john.block(@jane).should == true
-      @jane.unblock(@john).should == false
-      @john.unblock(@jane).should == true
     end
 
     it "should return the correct number of friends blocked" do
@@ -229,7 +230,8 @@ describe Amistad::FriendModel do
       @john.invited.should include(@david)
       @john.invited.should_not include(@victoria)
       
-      @john.pending_invited.count.should == 0
+      @john.pending_invited.count.should == 1
+      @john.pending_invited.should include(@jane)
       @john.pending_invited.should_not include(@david)
       @john.pending_invited.should_not include(@victoria)
     end

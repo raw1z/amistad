@@ -9,29 +9,29 @@ module Amistad
         has_many  :pending_invited,
                   :through => :friendships,
                   :source => :friend,
-                  :conditions => { :'friendships.pending' => true, :'friendships.blocker_id' => nil }
+                  :conditions => { :'friendships.pending' => true, :'friendships.blocked' => false }
                   
         has_many  :invited,
                   :through => :friendships,
                   :source => :friend,
-                  :conditions => { :'friendships.pending' => false, :'friendships.blocker_id' => nil }
+                  :conditions => { :'friendships.pending' => false, :'friendships.blocked' => false }
 
         has_many  :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
         
         has_many  :pending_invited_by,
                   :through => :inverse_friendships,
                   :source => :user,
-                  :conditions => { :'friendships.pending' => true, :'friendships.blocker_id' => nil }
+                  :conditions => { :'friendships.pending' => true, :'friendships.blocked' => false }
                   
         has_many  :invited_by,
                   :through => :inverse_friendships,
                   :source => :user,
-                  :conditions => { :'friendships.pending' => false, :'friendships.blocker_id' => nil }
+                  :conditions => { :'friendships.pending' => false, :'friendships.blocked' => false }
                   
         has_many  :blocked,
                   :through => :inverse_friendships,
                   :source => :user,
-                  :conditions => 'friendships.blocker_id IS NOT NULL'
+                  :conditions => { :'friendships.blocked' => true }
       end
     end
 
@@ -63,17 +63,16 @@ module Amistad
       # blocks a friendship request
       def block(user)
         friendship = find_any_friendship_with(user)
-        return false if friendship.nil?
-        friendship.blocker = self
-        friendship.pending = false
+        return false if friendship.nil? || friendship.user == self
+        friendship.blocked = true
         friendship.save
       end
 
       # unblocks a friendship
       def unblock(user)
         friendship = find_any_friendship_with(user)
-        return false if friendship.nil? || friendship.blocker != self
-        friendship.blocker = nil
+        return false if friendship.nil? || friendship.user == self
+        friendship.blocked = false
         friendship.save
       end
       

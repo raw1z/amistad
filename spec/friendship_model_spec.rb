@@ -22,6 +22,5 @@ describe Amistad::FriendshipModel do
   it "is not in a blocked state when created" do
     friendship = Friendship.create(:user_id => 1, :friend_id => 2)
     friendship.blocked?.should == false
-    friendship.blocker_id.should == nil
   end
 end
