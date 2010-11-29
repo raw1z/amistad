@@ -19,7 +19,6 @@ ActiveRecord::Schema.define do
     t.integer :friend_id
     t.boolean :pending, :default => true
     t.boolean :blocked, :default => false
-    t.integer :blocker_id
   end
 end
 
