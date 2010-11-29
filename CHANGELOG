@@ -1,4 +1,9 @@
-Version 0.5.3 (29.11.2010)
+Version 0.5.6 (30.11.2010)
+- added has_invited? method in FriendModel
+- added is_connected_with? method in FriendModel
+- improved was_invited_by?
+
+Version 0.5.5 (29.11.2010)
 --------------------------
 - added unblock method in FriendModel
 
