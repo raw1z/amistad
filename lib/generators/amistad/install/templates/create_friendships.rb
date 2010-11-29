@@ -4,7 +4,7 @@ class CreateFriendships < ActiveRecord::Migration
       t.integer :user_id
       t.integer :friend_id
       t.boolean :pending, :default => true
-      t.boolean :blocked, :default => true
+      t.boolean :blocked, :default => false
     end
 
     add_index :friendships, [:user_id, :friend_id], :unique => true
