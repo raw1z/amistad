@@ -83,11 +83,22 @@ describe Amistad::FriendModel do
     it "checks if a user is a friend" do
       @john.is_friend_with?(@james).should == true
       @john.is_friend_with?(@mary).should == true
-      
+
       @john.is_friend_with?(@jane).should == false
       @john.is_friend_with?(@peter).should == false
     end
-    
+
+    it "checks if a user has any connection with another user" do
+      @john.is_connected_with?(@jane).should == true
+      @jane.is_connected_with?(@john).should == true
+
+      @john.is_connected_with?(@peter).should == true
+      @peter.is_connected_with?(@john).should == true
+
+      @victoria.is_connected_with?(@john).should == false
+      @john.is_connected_with?(@victoria).should == false
+    end
+
     it "checks if a user was invited by another" do
       @jane.was_invited_by?(@john).should == true
       @james.was_invited_by?(@john).should == true
@@ -95,7 +106,18 @@ describe Amistad::FriendModel do
       @john.was_invited_by?(@jane).should == false
       @victoria.was_invited_by?(@john).should == false
     end
-    
+
+    it "checks if a user has invited another user" do
+      @john.has_invited?(@jane).should == true
+      @john.has_invited?(@james).should == true
+
+      @jane.has_invited?(@john).should == false
+      @james.has_invited?(@john).should == false
+
+      @victoria.has_invited?(@john).should == false
+      @john.has_invited?(@victoria).should == false
+    end
+
     it "lists the friends he has in common with another user" do
       @james.common_friends_with(@mary).count.should == 1
       @james.common_friends_with(@mary).should include(@john)
