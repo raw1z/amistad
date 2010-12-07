@@ -38,21 +38,15 @@ module Amistad
     module InstanceMethods
       # suggest a user to become a friend. If the operation succeeds, the method returns true, else false
       def invite(user)
-        return false if user == self
-        
-        friendship = find_any_friendship_with(user)
-        return false if not friendship.nil?
-        
-        friendship = Friendship.new(:user_id => self.id, :friend_id => user.id)
-        friendship.save
+        return false if user == self || find_any_friendship_with(user)
+        Friendship.new(:user_id => self.id, :friend_id => user.id).save
       end
       
       # approve a friendship invitation. If the operation succeeds, the method returns true, else false
       def approve(user)
         friendship = find_any_friendship_with(user)
-        return false if friendship.nil?
-        friendship.pending = false
-        friendship.save
+        return false if friendship.nil? || has_invited?(user)
+        friendship.update_attribute(:pending, false)
       end
       
       # returns the list of approved friends

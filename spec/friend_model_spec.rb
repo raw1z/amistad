@@ -25,13 +25,21 @@ describe Amistad::FriendModel do
       @jane.approve(@john).should == true
       @john.approve(@victoria).should == true
     end
-    
+
     it "could not create a new friendship with a user which is already a friend" do
       @john.invite(@jane).should == true
       @john.invite(@jane).should == false
       @jane.invite(@john).should == false
     end
-    
+
+    it "could not approve self requested friendship" do
+      @john.invite(@jane).should == true
+      @victoria.invite(@john).should == true
+
+      @john.approve(@jane).should == false
+      @victoria.approve(@john).should == false
+    end
+
     it "could not create a friendship with himself" do
       @john.invite(@john).should == false
     end
@@ -44,6 +52,7 @@ describe Amistad::FriendModel do
   context "when listing friendships" do
     before(:each) do
       Friendship.delete_all
+
       @john.invite(@jane).should == true
       @john.invite(@james).should == true
       
@@ -127,6 +136,7 @@ describe Amistad::FriendModel do
   context "when removing friendships" do
     before(:each) do
       Friendship.delete_all
+
       @victoria.invite(@mary).should == true
       @victoria.invite(@john).should == true
       @victoria.invite(@elisabeth).should == true
