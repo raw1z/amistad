@@ -30,7 +30,7 @@ This commands create a new model called __friendship__ in *'app/models'* :
 
 It also creates a new migration for the friendship model so don't forget to migrate your database :
 
-    db:migrate
+    rake db:migrate
 
 Then activate __amistad__ in your user model :
 
