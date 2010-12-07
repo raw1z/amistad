@@ -3,3 +3,4 @@ pkg/*
 .bundle
 spec/db/*.db
 Gemfile.lock
+nbproject
