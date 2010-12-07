@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.rubyforge_project = "amistad"
 
   s.add_development_dependency "bundler", ">= 1.0.0"
-  s.add_development_dependency "rspec", "~> 2.1.0"
+  s.add_development_dependency "rspec", "~> 2.2.0"
   s.add_development_dependency "activerecord", "~> 3.0.0"
   s.add_development_dependency "sqlite3-ruby", ">= 1.3.2"
 
