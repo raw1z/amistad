@@ -1,8 +1,14 @@
+Version 0.5.8 (08.12.2010)
+--------------------------
+- made find_any_friendship_with public
+
 Version 0.5.7 (07.12.2010)
+--------------------------
 - fixed bug with invitation approving
 - cleaned up the invite and approve methods
 
 Version 0.5.6 (30.11.2010)
+--------------------------
 - added has_invited? method in FriendModel
 - added is_connected_with? method in FriendModel
 - improved was_invited_by?
