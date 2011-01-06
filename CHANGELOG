@@ -1,21 +1,23 @@
-<<<<<<< HEAD
-Version 0.5.7 (07.12.2010)
-=======
+Version 0.5.9 (06.01.2011)
+--------------------------
+- improved blocking and unblocking friends
+- method is_friend_with? changed to friend_with?
+- method is_connected_with? changed to connected_with?
+- method was_invited_by? changed to invited_by?
+- method has_invited? changed to invited?
+- added method blocked?
+
 Version 0.5.8 (08.12.2010)
 --------------------------
 - made find_any_friendship_with public
 
 Version 0.5.7 (07.12.2010)
 --------------------------
->>>>>>> aa343575b7b659b7703ccdccb1af1c30d0b50b6c
 - fixed bug with invitation approving
 - cleaned up the invite and approve methods
 
 Version 0.5.6 (30.11.2010)
-<<<<<<< HEAD
-=======
 --------------------------
->>>>>>> aa343575b7b659b7703ccdccb1af1c30d0b50b6c
 - added has_invited? method in FriendModel
 - added is_connected_with? method in FriendModel
 - improved was_invited_by?
