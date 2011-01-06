@@ -122,9 +122,9 @@ To get the blocked users :
 
     @jane.blocked #=> [@john]
 
-You can also check if a user is blocked with __blocked?(user)__ method :
+You can also check if a user is blocked with __blocked?()__ method :
 
-    @jane.blocked?(@john) #=> true
+    @jane.blocked? @john #=> true
 
 ### Unblocking friendship ###
 
