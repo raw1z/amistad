@@ -82,22 +82,22 @@ To get the pending friendships use :
     
 It is also possible to check if two users are friends :
 
-    @john.is_friend_with? @jane #=> true
-    @victoria.is_friend_with? @john #=> false
+    @john.friend_with? @jane #=> true
+    @victoria.friend_with? @john #=> false
 
 You can also check if a user is somehow connected to another :
 
-    @john.is_connected_with? @jane #=> true
-    @victoria.is_connected_with? @john #=> true
+    @john.connected_with? @jane #=> true
+    @victoria.connected_with? @john #=> true
 
 You can also check if a user was invited by anoter :
 
-    @john.was_invited_by? @john #=> true
-    @victoria.was_invited_by? @john #=> false
+    @john.invited_by? @john #=> true
+    @victoria.invited_by? @john #=> false
 
 You can also check if a user invited another :
 
-    @john.has_invited? @jane #=> true
+    @john.invited? @jane #=> true
 
 You can also find the friends that two users have in common :
 
