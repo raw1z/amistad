@@ -28,10 +28,17 @@ module Amistad
                   :source => :user,
                   :conditions => { :'friendships.pending' => false, :'friendships.blocker_id' => nil }
 
-        has_many  :blocked,
-                  :through => :inverse_friendships,
+        has_many  :blocked_friendships, :class_name => "Friendship", :foreign_key => "blocker_id"
+
+        has_many  :blockades,
+                  :through => :blocked_friendships,
+                  :source => :friend,
+                  :conditions => "friend_id <> blocker_id"
+
+        has_many  :blockades_by,
+                  :through => :blocked_friendships,
                   :source => :user,
-                  :conditions => "friendships.blocker_id NOT NULL"
+                  :conditions => "User_id <> blocker_id"
       end
     end
 
@@ -49,30 +56,35 @@ module Amistad
         friendship.update_attribute(:pending, false)
       end
 
+      # deletes a friendship
+      def remove(user)
+        friendship = find_any_friendship_with(user)
+        return false if friendship.nil?
+        friendship.destroy && friendship.destroyed?
+      end
+
       # returns the list of approved friends
       def friends
         self.invited(true) + self.invited_by(true)
       end
 
+      # returns the list of blocked friends
+      def blocked
+        self.blockades(true) + self.blockades_by(true)
+      end
+
       # blocks a friendship request
       def block(user)
         friendship = find_any_friendship_with(user)
-        return false if friendship.nil? || friendship.blocked? || (friendship.user == self && friendship.pending?)
+        return false if friendship.nil? || !friendship.can_block?(self)
         friendship.update_attribute(:blocker, self)
       end
 
       # unblocks a friendship
       def unblock(user)
         friendship = find_any_friendship_with(user)
-        return false if friendship.nil? || !friendship.blocked? || friendship.blocker != self
+        return false if friendship.nil? || !friendship.can_unblock?(self)
         friendship.update_attribute(:blocker, nil)
-      end
-
-      # deletes a friendship
-      def remove(user)
-        friendship = find_any_friendship_with(user)
-        return false if friendship.nil?
-        friendship.destroy && friendship.destroyed?
       end
 
       # checks if a user is a friend
@@ -81,7 +93,7 @@ module Amistad
       end
 
       def connected_with?(user)
-        !find_any_friendship_with(user).nil?
+        find_any_friendship_with(user).present?
       end
 
       # checks if a user send a friendship's invitation

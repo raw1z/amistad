@@ -14,6 +14,11 @@ module Amistad
     end
 
     module InstanceMethods
+      # returns true if a friendship has been approved, else false
+      def approved?
+        !self.pending
+      end
+
       # returns true if a friendship has not been approved, else false
       def pending?
         self.pending
@@ -22,6 +27,21 @@ module Amistad
       # returns true if a friendship has been blocked, else false
       def blocked?
         self.blocker_id.present?
+      end
+
+      # returns true if a friendship has not beed blocked, else false
+      def active?
+        self.blocker_id.nil?
+      end
+
+      # returns true if a friendship can be blocked by given user
+      def can_block?(user)
+        active? && (approved? || (pending? && self.friend == user))
+      end
+
+      # returns true if a friendship can be unblocked by given user
+      def can_unblock?(user)
+        blocked? && self.blocker == user
       end
     end
   end
