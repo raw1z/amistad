@@ -30,7 +30,7 @@ This commands create a new model called __friendship__ in *'app/models'* :
 
 It also creates a new migration for the friendship model so don't forget to migrate your database :
 
-    db:migrate
+    rake db:migrate
 
 Then activate __amistad__ in your user model :
 
@@ -144,6 +144,10 @@ It is possible to test amistad by running the following command from the gem dir
     
 Remember that amistad is only compatible with ActiveRecord 3.x.
 
+## Acknowledgement ##
+
+* David Czarnecki : block friendships
+* Adrian Dulić : unblock friendships (and many other improvements)
 
 ## Note on Patches/Pull Requests ##
  

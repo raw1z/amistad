@@ -121,15 +121,14 @@ module Amistad
         self.friends & user.friends
       end
 
-      private
-
-        def find_any_friendship_with(user)
-          friendship = Friendship.where(:user_id => self.id, :friend_id => user.id).first
-          if friendship.nil?
-            friendship = Friendship.where(:user_id => user.id, :friend_id => self.id).first
-          end
-          friendship
+      # returns friendship with given user or nil
+      def find_any_friendship_with(user)
+        friendship = Friendship.where(:user_id => self.id, :friend_id => user.id).first
+        if friendship.nil?
+          friendship = Friendship.where(:user_id => user.id, :friend_id => self.id).first
         end
+        friendship
+      end
     end    
   end
 end
