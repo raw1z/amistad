@@ -122,7 +122,7 @@ To get the blocked users :
 
     @jane.blocked #=> [@john]
 
-You can also check if a user is blocked with __blocked?()__ method :
+You can also check if a user is blocked :
 
     @jane.blocked? @john #=> true
 
