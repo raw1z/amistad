@@ -9,29 +9,29 @@ module Amistad
         has_many  :pending_invited,
                   :through => :friendships,
                   :source => :friend,
-                  :conditions => { :'friendships.pending' => true, :'friendships.blocked' => false }
+                  :conditions => { :'friendships.pending' => true, :'friendships.blocker_id' => nil }
 
         has_many  :invited,
                   :through => :friendships,
                   :source => :friend,
-                  :conditions => { :'friendships.pending' => false, :'friendships.blocked' => false }
+                  :conditions => { :'friendships.pending' => false, :'friendships.blocker_id' => nil }
 
         has_many  :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
 
         has_many  :pending_invited_by,
                   :through => :inverse_friendships,
                   :source => :user,
-                  :conditions => { :'friendships.pending' => true, :'friendships.blocked' => false }
+                  :conditions => { :'friendships.pending' => true, :'friendships.blocker_id' => nil }
 
         has_many  :invited_by,
                   :through => :inverse_friendships,
                   :source => :user,
-                  :conditions => { :'friendships.pending' => false, :'friendships.blocked' => false }
+                  :conditions => { :'friendships.pending' => false, :'friendships.blocker_id' => nil }
 
         has_many  :blocked,
                   :through => :inverse_friendships,
                   :source => :user,
-                  :conditions => { :'friendships.blocked' => true }
+                  :conditions => "friendships.blocker_id NOT NULL"
       end
     end
 
@@ -58,14 +58,14 @@ module Amistad
       def block(user)
         friendship = find_any_friendship_with(user)
         return false if friendship.nil? || friendship.blocked? || (friendship.user == self && friendship.pending?)
-        friendship.update_attribute(:blocked, true)
+        friendship.update_attribute(:blocker, self)
       end
 
       # unblocks a friendship
       def unblock(user)
         friendship = find_any_friendship_with(user)
-        return false if friendship.nil? || !friendship.blocked? || friendship.user == self
-        friendship.update_attribute(:blocked, false)
+        return false if friendship.nil? || !friendship.blocked? || friendship.blocker != self
+        friendship.update_attribute(:blocker, nil)
       end
 
       # deletes a friendship

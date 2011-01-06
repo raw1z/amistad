@@ -320,8 +320,8 @@ describe Amistad::FriendModel do
       Friendship.delete_all
       @john.invite(@james).should be_true
       @james.approve(@john).should be_true
-      @james.block(@john).should be_true
-      @james.unblock(@john).should be_true
+      @john.block(@james).should be_true
+      @john.unblock(@james).should be_true
       @mary.invite(@victoria).should be_true
       @victoria.approve(@mary).should be_true
       @victoria.block(@mary).should be_true
