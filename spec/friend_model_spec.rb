@@ -313,6 +313,13 @@ describe Amistad::FriendModel do
         user.pending_invited.should_not include(@david)
       end
     end
+
+    it "should check if a user is blocked" do
+      @james.blocked?(@john).should be_true
+      @victoria.blocked?(@mary).should be_true
+      @david.blocked?(@john).should be_true
+      @david.blocked?(@victoria).should be_true
+    end
   end
 
   context "when unblocking friendships" do

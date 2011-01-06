@@ -38,7 +38,7 @@ module Amistad
         has_many  :blockades_by,
                   :through => :blocked_friendships,
                   :source => :user,
-                  :conditions => "User_id <> blocker_id"
+                  :conditions => "user_id <> blocker_id"
       end
     end
 
@@ -68,12 +68,7 @@ module Amistad
         self.invited(true) + self.invited_by(true)
       end
 
-      # returns the list of blocked friends
-      def blocked
-        self.blockades(true) + self.blockades_by(true)
-      end
-
-      # blocks a friendship request
+      # blocks a friendship
       def block(user)
         friendship = find_any_friendship_with(user)
         return false if friendship.nil? || !friendship.can_block?(self)
@@ -87,22 +82,34 @@ module Amistad
         friendship.update_attribute(:blocker, nil)
       end
 
+      # returns the list of blocked friends
+      def blocked
+        self.blockades(true) + self.blockades_by(true)
+      end
+
+      # checks if a user is blocked
+      def blocked?(user)
+        blocked.include?(user)
+      end
+
       # checks if a user is a friend
       def friend_with?(user)
         friends.include?(user)
       end
 
+      # checks if a current user is connected to given user
       def connected_with?(user)
         find_any_friendship_with(user).present?
       end
 
-      # checks if a user send a friendship's invitation
+      # checks if a current user received invitation from given user
       def invited_by?(user)
         friendship = find_any_friendship_with(user)
         return false if friendship.nil?
         friendship.user == user
       end
 
+      # checks if a current user invited given user
       def invited?(user)
         friendship = find_any_friendship_with(user)
         return false if friendship.nil?
