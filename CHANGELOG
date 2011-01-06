@@ -1,4 +1,4 @@
-Version 0.5.9 (06.01.2011)
+Version 0.6.0 (06.01.2011)
 --------------------------
 - improved blocking and unblocking friends
 - method is_friend_with? changed to friend_with?
