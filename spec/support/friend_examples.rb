@@ -1,7 +1,4 @@
-require 'spec_helper'
-
-describe Amistad::FriendModel do
-
+shared_examples_for "a friend model" do  
   before(:all) do
     %w(John Jane David James Peter Mary Victoria Elisabeth).each do |name|
       instance_variable_set("@#{name.downcase}".to_sym, User.create(:name => name))
@@ -10,7 +7,7 @@ describe Amistad::FriendModel do
 
   context "when creating friendships" do
     before do
-      Friendship.delete_all
+      reset_friendships
     end
 
     it "should invite other users to friends" do
@@ -63,7 +60,7 @@ describe Amistad::FriendModel do
 
   context "when listing friendships" do
     before do
-      Friendship.delete_all
+      reset_friendships
       @john.invite(@jane).should be_true
       @peter.invite(@john).should be_true
       @john.invite(@james).should be_true
@@ -160,7 +157,7 @@ describe Amistad::FriendModel do
 
   context "when removing friendships" do
     before do
-      Friendship.delete_all
+      reset_friendships
       @jane.invite(@james).should be_true
       @james.approve(@jane).should be_true
       @james.invite(@victoria).should be_true
@@ -234,7 +231,7 @@ describe Amistad::FriendModel do
 
   context "when blocking friendships" do
     before do
-      Friendship.delete_all
+      reset_friendships
       @john.invite(@james).should be_true
       @james.approve(@john).should be_true
       @james.block(@john).should be_true
@@ -295,7 +292,7 @@ describe Amistad::FriendModel do
       @james.blocked.each do |user|
         @james.friends.should_not include(user)
         user.friends.should_not include(@james)
-    end
+      end
     end
 
     it "should not list blocked users in invited" do
@@ -324,7 +321,7 @@ describe Amistad::FriendModel do
 
   context "when unblocking friendships" do
     before do
-      Friendship.delete_all
+      reset_friendships
       @john.invite(@james).should be_true
       @james.approve(@john).should be_true
       @john.block(@james).should be_true

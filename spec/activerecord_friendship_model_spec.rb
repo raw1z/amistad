@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Amistad::FriendshipModel do
+describe Amistad::ActiveRecord::FriendshipModel do
 
   before(:all) do
     %w(Jane David).each do |name|
