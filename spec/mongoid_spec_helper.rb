@@ -9,10 +9,3 @@ Mongoid.configure do |config|
     Mongo::Connection.new(host, 27017, :slave_ok => true).db(name)
   ]
 end
-
-class Member
-  include Mongoid::Document
-  include Amistad::FriendModel
-
-  field :name, :required => true
-end
