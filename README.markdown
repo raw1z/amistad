@@ -1,28 +1,24 @@
 # amistad #
 
-Amistad adds friendships management into a rails 3.0 application.
+Amistad adds friendships management into a rails 3.0 application. it supports ActiveRecord and Mongoid.
 
 ## Installation ##
 
-Just run the following command :
-
-    gem install amistad
-  
-Then in your Gemfile add the following line :
+Add the following line in your Gemfile:
 
     gem 'amistad'
 
-And run
+Then run:
 
     bundle install
 
 ## Usage ##
 
-First generate a friendship model :
+If you are using ActiveRecord, you need to generate a friendship model. Amistad has a generator for this task :
 
     rails generate amistad:install  
     
-This commands create a new model called __friendship__ in *'app/models'* :
+This command creates a new model called __friendship__ in *'app/models'* :
 
     class Friendship < ActiveRecord::Base
       include Amistad::FriendshipModel
@@ -32,9 +28,16 @@ It also creates a new migration for the friendship model so don't forget to migr
 
     rake db:migrate
 
-Then activate __amistad__ in your user model :
+If you are using Mongoig, you don't need a friendship model. Finally, activate __amistad__ in your user model :
 
     class User < ActiveRecord::Base  
+      include Amistad::FriendModel
+    end
+    
+or :
+
+    class User
+      include Mongoid::Document
       include Amistad::FriendModel
     end
     
