@@ -58,7 +58,7 @@ module Amistad
         end
 
         # deletes a friendship
-        def remove(user)
+        def remove_friendship(user)
           friendship = find_any_friendship_with(user)
           return false if friendship.nil?
           friendship.destroy && friendship.destroyed?

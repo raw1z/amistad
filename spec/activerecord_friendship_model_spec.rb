@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'activerecord_spec_helper'
 
 describe Amistad::ActiveRecord::FriendshipModel do
 

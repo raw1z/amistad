@@ -1,12 +1,12 @@
-shared_examples_for "a friend model" do  
+shared_examples_for "a friend model" do
   before(:all) do
     %w(John Jane David James Peter Mary Victoria Elisabeth).each do |name|
-      instance_variable_set("@#{name.downcase}".to_sym, User.create(:name => name))
+      instance_variable_set("@#{name.downcase}".to_sym, create_instance_variable(:name => name))
     end
   end
 
   context "when creating friendships" do
-    before do
+    before(:each) do
       reset_friendships
     end
 
@@ -59,7 +59,7 @@ shared_examples_for "a friend model" do
   end
 
   context "when listing friendships" do
-    before do
+    before(:each) do
       reset_friendships
       @john.invite(@jane).should be_true
       @peter.invite(@john).should be_true
@@ -156,7 +156,7 @@ shared_examples_for "a friend model" do
   end
 
   context "when removing friendships" do
-    before do
+    before(:each) do
       reset_friendships
       @jane.invite(@james).should be_true
       @james.approve(@jane).should be_true
@@ -177,7 +177,7 @@ shared_examples_for "a friend model" do
       @mary.friends.size.should == 1
       @mary.friends.should include(@victoria)
       @mary.invited_by.should include(@victoria)
-      @victoria.remove(@mary).should be_true
+      @victoria.remove_friendship(@mary).should be_true
       @victoria.friends.size.should == 2
       @victoria.friends.should_not include(@mary)
       @victoria.invited.should_not include(@mary)
@@ -193,7 +193,7 @@ shared_examples_for "a friend model" do
       @james.friends.size.should == 2
       @james.friends.should include(@victoria)
       @james.invited.should include(@victoria)
-      @victoria.remove(@james).should be_true
+      @victoria.remove_friendship(@james).should be_true
       @victoria.friends.size.should == 2
       @victoria.friends.should_not include(@james)
       @victoria.invited_by.should_not include(@james)
@@ -207,7 +207,7 @@ shared_examples_for "a friend model" do
       @victoria.pending_invited.should include(@elisabeth)
       @elisabeth.pending_invited_by.size.should == 1
       @elisabeth.pending_invited_by.should include(@victoria)
-      @victoria.remove(@elisabeth).should be_true
+      @victoria.remove_friendship(@elisabeth).should be_true
       [@victoria, @elisabeth].map(&:reload)
       @victoria.pending_invited.size.should == 0
       @victoria.pending_invited.should_not include(@elisabeth)
@@ -220,7 +220,7 @@ shared_examples_for "a friend model" do
       @victoria.pending_invited_by.should include(@peter)
       @peter.pending_invited.count.should == 1
       @peter.pending_invited.should include(@victoria)
-      @victoria.remove(@peter).should be_true
+      @victoria.remove_friendship(@peter).should be_true
       [@victoria, @peter].map(&:reload)
       @victoria.pending_invited_by.count.should == 0
       @victoria.pending_invited_by.should_not include(@peter)
@@ -230,7 +230,7 @@ shared_examples_for "a friend model" do
   end
 
   context "when blocking friendships" do
-    before do
+    before(:each) do
       reset_friendships
       @john.invite(@james).should be_true
       @james.approve(@john).should be_true
@@ -320,7 +320,7 @@ shared_examples_for "a friend model" do
   end
 
   context "when unblocking friendships" do
-    before do
+    before(:each) do
       reset_friendships
       @john.invite(@james).should be_true
       @james.approve(@john).should be_true

@@ -1,5 +1,9 @@
 Version 0.6.0 (06.01.2011)
 --------------------------
+- method remove changed to remove_friendship
+
+Version 0.6.0 (06.01.2011)
+--------------------------
 - improved blocking and unblocking friends
 - method is_friend_with? changed to friend_with?
 - method is_connected_with? changed to connected_with?
