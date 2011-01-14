@@ -43,21 +43,25 @@ module Amistad
 
         # return the list of invited friends
         def invited
+          return [] if friend_ids.empty?
           self.class.find(friend_ids)
         end
 
         # return the list of friends who invited
         def invited_by
+          return [] if inverse_friend_ids.empty?
           self.class.find(inverse_friend_ids)
         end
 
         # return the list of pending invited friends
         def pending_invited
+          return [] if pending_friend_ids.empty?
           self.class.find(pending_friend_ids)
         end
 
         # return the list of pending friends who invited
         def pending_invited_by
+          return [] if pending_inverse_friend_ids.empty?
           self.class.find(pending_inverse_friend_ids)
         end
 
@@ -146,7 +150,9 @@ module Amistad
         
         # returns the list of blocked friends
         def blocked
-          self.class.find(blocked_friend_ids + blocked_inverse_friend_ids + blocked_pending_inverse_friend_ids)
+          blocked_ids = blocked_friend_ids + blocked_inverse_friend_ids + blocked_pending_inverse_friend_ids
+          return [] if  blocked_ids.empty?
+          self.class.find(blocked_ids)
         end
         
         # checks if a user is blocked

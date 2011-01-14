@@ -8,7 +8,7 @@ describe Amistad::Mongoid::FriendModel do
   end
   
   before(:all) do
-    Object.send(:remove_const, :User)
+    Object.send(:remove_const, :User) if Object.const_defined?(:User)
     User = Class.new
     User.class_exec do
       include Mongoid::Document

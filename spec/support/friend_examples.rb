@@ -74,6 +74,7 @@ shared_examples_for "a friend model" do
     end
 
     it "should not list non-friended users" do
+      @victoria.friends.should be_empty
       @john.friends.should =~ [@mary, @james]
       @john.friends.should_not include(@peter)
       @john.friends.should_not include(@victoria)
