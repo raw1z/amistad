@@ -4,6 +4,8 @@ module Amistad
       def self.included(receiver)
         receiver.class_exec do
           include InstanceMethods
+          
+          attr_accessible :friend_ids, :inverse_friend_ids, :pending_friend_ids, :pending_inverse_friend_ids, :blocked_friend_ids, :blocked_inverse_friend_ids, :blocked_pending_friend_ids, :blocked_pending_inverse_friend_ids
 
           field :friend_ids, :type => Array, :default => []
           field :inverse_friend_ids, :type => Array, :default => []
