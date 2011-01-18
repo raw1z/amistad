@@ -9,6 +9,8 @@ module Amistad
         receiver.class_exec do
           include Amistad::Mongoid::FriendModel
         end
+      else
+        raise "Amistad only supports ActiveRecord and Mongoid"
       end
     end
   end
