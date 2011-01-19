@@ -4,8 +4,6 @@ module Amistad
       def self.included(receiver)
         receiver.class_exec do
           include InstanceMethods
-          
-          attr_accessible :friend_ids, :inverse_friend_ids, :pending_friend_ids, :pending_inverse_friend_ids, :blocked_friend_ids, :blocked_inverse_friend_ids, :blocked_pending_friend_ids, :blocked_pending_inverse_friend_ids
 
           field :friend_ids, :type => Array, :default => []
           field :inverse_friend_ids, :type => Array, :default => []
@@ -16,6 +14,8 @@ module Amistad
           field :blocked_inverse_friend_ids, :type => Array, :default => []
           field :blocked_pending_friend_ids, :type => Array, :default => []
           field :blocked_pending_inverse_friend_ids, :type => Array, :default => []
+          
+          attr_accessible :friend_ids, :inverse_friend_ids, :pending_friend_ids, :pending_inverse_friend_ids, :blocked_friend_ids, :blocked_inverse_friend_ids, :blocked_pending_friend_ids, :blocked_pending_inverse_friend_ids
         end
       end
 
@@ -45,25 +45,21 @@ module Amistad
 
         # return the list of invited friends
         def invited
-          return [] if friend_ids.empty?
           self.class.find(friend_ids)
         end
 
         # return the list of friends who invited
         def invited_by
-          return [] if inverse_friend_ids.empty?
           self.class.find(inverse_friend_ids)
         end
 
         # return the list of pending invited friends
         def pending_invited
-          return [] if pending_friend_ids.empty?
           self.class.find(pending_friend_ids)
         end
 
         # return the list of pending friends who invited
         def pending_invited_by
-          return [] if pending_inverse_friend_ids.empty?
           self.class.find(pending_inverse_friend_ids)
         end
 
@@ -153,7 +149,6 @@ module Amistad
         # returns the list of blocked friends
         def blocked
           blocked_ids = blocked_friend_ids + blocked_inverse_friend_ids + blocked_pending_inverse_friend_ids
-          return [] if  blocked_ids.empty?
           self.class.find(blocked_ids)
         end
         
