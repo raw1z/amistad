@@ -391,4 +391,34 @@ describe Amistad::FriendModel do
       @david.pending_invited_by.should == [@victoria]
     end
   end
+  
+  context "when counting friendships and blocks" do
+    before do
+      Friendship.delete_all
+      
+      @john.invite(@james).should be_true
+      @james.approve(@john).should be_true
+      @john.invite(@victoria).should be_true
+      @victoria.approve(@john).should be_true      
+      @elisabeth.invite(@john).should be_true
+      @john.approve(@elisabeth).should be_true
+      
+      @victoria.invite(@david).should be_true
+      @david.block(@victoria).should be_true
+      @mary.invite(@victoria).should be_true
+      @victoria.block(@mary).should be_true
+    end
+    
+    it "should return the correct count for total_friends" do
+      @john.total_friends.should == 3
+      @elisabeth.total_friends.should == 1
+      @james.total_friends.should == 1
+      @victoria.total_friends.should == 1
+    end
+    
+    it "should return the correct count for total_blocked" do
+      @david.total_blocked.should == 1
+      @victoria.total_blocked.should == 1
+    end
+  end
 end
