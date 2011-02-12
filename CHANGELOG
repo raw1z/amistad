@@ -1,4 +1,4 @@
-Version 0.6.0 (13.01.2011)
+Version 0.7.0 (12.02.2011)
 --------------------------
 - add mongoid support
 - method remove changed to remove_friendship
