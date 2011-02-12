@@ -15,11 +15,11 @@ Gem::Specification.new do |s|
   s.rubyforge_project = "amistad"
 
   s.add_development_dependency "bundler", "~>1.0.7"
-  s.add_development_dependency "rspec", "~> 2.4.0"
-  s.add_development_dependency "activerecord", "~> 3.0.3"
+  s.add_development_dependency "rspec", "~> 2.5.0"
+  s.add_development_dependency "activerecord", "~> 3.0.4"
   s.add_development_dependency "sqlite3-ruby", "1.3.2"
-  s.add_development_dependency "mongoid", "~> 2.0.0.rc.3"
-  s.add_development_dependency "bson_ext", "~> 1.1.5"
+  s.add_development_dependency "mongoid", "~> 2.0.0.rc.7"
+  s.add_development_dependency "bson_ext", "~> 1.2"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
