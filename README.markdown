@@ -28,7 +28,7 @@ It also creates a new migration for the friendship model so don't forget to migr
 
     rake db:migrate
 
-If you are using Mongoig, you don't need a friendship model. Finally, activate __amistad__ in your user model :
+If you are using Mongoid, you don't need a friendship model. Finally, activate __amistad__ in your user model :
 
     class User < ActiveRecord::Base  
       include Amistad::FriendModel
@@ -139,17 +139,18 @@ The __unblock()__ method allow a user to unblock previously blocked friendship w
     @jane.unblock @john
     @jane.blocked #=> []
 
-## Testing the gem ##
+## Testing ##
 
-It is possible to test amistad by running the following command from the gem directory:
+It is possible to test amistad by running one of the following commands from the gem directory:
 
-    rake spec
+    rake spec:activerecord # activerecord tests
+    rake spec:mongoid      # mongoid tests
     
-Remember that amistad is only compatible with ActiveRecord 3.x.
+Remember that amistad is only compatible with ActiveRecord 3.x and Mongoid.
 
-## Acknowledgement ##
+## Contributors ##
 
-* David Czarnecki : block friendships
+* David Czarnecki : block friendships (and many other improvements)
 * Adrian Dulić : unblock friendships (and many other improvements)
 
 ## Note on Patches/Pull Requests ##

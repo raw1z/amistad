@@ -9,12 +9,12 @@ module Amistad
           field :inverse_friend_ids, :type => Array, :default => []
           field :pending_friend_ids, :type => Array, :default => []
           field :pending_inverse_friend_ids, :type => Array, :default => []
-          
+
           field :blocked_friend_ids, :type => Array, :default => []
           field :blocked_inverse_friend_ids, :type => Array, :default => []
           field :blocked_pending_friend_ids, :type => Array, :default => []
           field :blocked_pending_inverse_friend_ids, :type => Array, :default => []
-          
+
           attr_accessible :friend_ids, :inverse_friend_ids, :pending_friend_ids, :pending_inverse_friend_ids, :blocked_friend_ids, :blocked_inverse_friend_ids, :blocked_pending_friend_ids, :blocked_pending_inverse_friend_ids
         end
       end
@@ -41,6 +41,11 @@ module Amistad
         # returns the list of approved friends
         def friends
           self.invited + self.invited_by
+        end
+
+        # total # of invited and invited_by without association loading
+        def total_friends
+          (friend_ids + inverse_friend_ids).count
         end
 
         # return the list of invited friends
@@ -119,7 +124,7 @@ module Amistad
           else
             return false
           end
-          
+
           self.save
         end
 
@@ -142,16 +147,21 @@ module Amistad
           else
             return false
           end
-          
+
           self.save && user.save
         end
-        
+
         # returns the list of blocked friends
         def blocked
           blocked_ids = blocked_friend_ids + blocked_inverse_friend_ids + blocked_pending_inverse_friend_ids
           self.class.find(blocked_ids)
         end
         
+        # total # of blockades and blockedes_by without association loading
+        def total_blocked
+          (blocked_friend_ids + blocked_inverse_friend_ids + blocked_pending_inverse_friend_ids).count
+        end
+
         # checks if a user is blocked
         def blocked?(user)
           (blocked_friend_ids + blocked_inverse_friend_ids + blocked_pending_inverse_friend_ids).include?(user.id) or user.blocked_pending_inverse_friend_ids.include?(self.id)

@@ -1,6 +1,7 @@
-Version 0.7.2 (12.02.2011)
+Version 0.7.2 (16.02.2011)
 --------------------------
-- Add namespaced rake tasks 'spec:activerecord' and 'spec:mongoid' (suggested by Adrian Dulić)
+- Added total_friends() and total_blocked() which count friendships and blocks without loading associations (by David Czarnecki)
+- Added namespaced rake tasks spec:activerecord and spec:mongoid (suggested by Adrian Dulić)
 - Use fuubar
 
 Version 0.7.1 (12.02.2011)

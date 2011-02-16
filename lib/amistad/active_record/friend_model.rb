@@ -8,38 +8,38 @@ module Amistad
           has_many  :friendships
 
           has_many  :pending_invited,
-                    :through => :friendships,
-                    :source => :friend,
-                    :conditions => { :'friendships.pending' => true, :'friendships.blocker_id' => nil }
+          :through => :friendships,
+          :source => :friend,
+          :conditions => { :'friendships.pending' => true, :'friendships.blocker_id' => nil }
 
           has_many  :invited,
-                    :through => :friendships,
-                    :source => :friend,
-                    :conditions => { :'friendships.pending' => false, :'friendships.blocker_id' => nil }
+          :through => :friendships,
+          :source => :friend,
+          :conditions => { :'friendships.pending' => false, :'friendships.blocker_id' => nil }
 
           has_many  :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
 
           has_many  :pending_invited_by,
-                    :through => :inverse_friendships,
-                    :source => :user,
-                    :conditions => { :'friendships.pending' => true, :'friendships.blocker_id' => nil }
+          :through => :inverse_friendships,
+          :source => :user,
+          :conditions => { :'friendships.pending' => true, :'friendships.blocker_id' => nil }
 
           has_many  :invited_by,
-                    :through => :inverse_friendships,
-                    :source => :user,
-                    :conditions => { :'friendships.pending' => false, :'friendships.blocker_id' => nil }
+          :through => :inverse_friendships,
+          :source => :user,
+          :conditions => { :'friendships.pending' => false, :'friendships.blocker_id' => nil }
 
           has_many  :blocked_friendships, :class_name => "Friendship", :foreign_key => "blocker_id"
 
           has_many  :blockades,
-                    :through => :blocked_friendships,
-                    :source => :friend,
-                    :conditions => "friend_id <> blocker_id"
+          :through => :blocked_friendships,
+          :source => :friend,
+          :conditions => "friend_id <> blocker_id"
 
           has_many  :blockades_by,
-                    :through => :blocked_friendships,
-                    :source => :user,
-                    :conditions => "user_id <> blocker_id"
+          :through => :blocked_friendships,
+          :source => :user,
+          :conditions => "user_id <> blocker_id"
         end
       end
 
@@ -69,6 +69,11 @@ module Amistad
           self.invited(true) + self.invited_by(true)
         end
 
+        # total # of invited and invited_by without association loading
+        def total_friends
+          self.invited(false).count + self.invited_by(false).count
+        end
+
         # blocks a friendship
         def block(user)
           friendship = find_any_friendship_with(user)
@@ -86,6 +91,11 @@ module Amistad
         # returns the list of blocked friends
         def blocked
           self.blockades(true) + self.blockades_by(true)
+        end
+
+        # total # of blockades and blockedes_by without association loading
+        def total_blocked
+          self.blockades(false).count + self.blockades_by(false).count
         end
 
         # checks if a user is blocked
