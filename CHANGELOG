@@ -1,3 +1,8 @@
+Version 0.7.2 (12.02.2011)
+--------------------------
+- Add namespaced rake tasks 'spec:activerecord' and 'spec:mongoid' (suggested by Adrian Dulić)
+- Use fuubar
+
 Version 0.7.1 (12.02.2011)
 --------------------------
 - Totally mess the previous relase. This one fix it.

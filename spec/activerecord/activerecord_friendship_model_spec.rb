@@ -1,4 +1,4 @@
-require 'activerecord_spec_helper'
+require File.dirname(__FILE__) + "/activerecord_spec_helper"
 
 describe Amistad::ActiveRecord::FriendshipModel do
 

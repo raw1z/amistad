@@ -1,4 +1,4 @@
-require 'mongoid_spec_helper'
+require File.dirname(__FILE__) + '/mongoid_spec_helper'
 
 describe Amistad::Mongoid::FriendModel do
   def reset_friendships
