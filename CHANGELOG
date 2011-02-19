@@ -1,3 +1,7 @@
+Version 0.7.3 (19.02.2011)
+--------------------------
+- Fixed a bug occuring with mongoid when the users were created before amistad was activated in the user model (thanks to Drew Baumann for signaling this bug)
+
 Version 0.7.2 (16.02.2011)
 --------------------------
 - Added total_friends() and total_blocked() which count friendships and blocks without loading associations (by David Czarnecki)
