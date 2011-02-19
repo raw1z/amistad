@@ -3,23 +3,28 @@ module Amistad
     module FriendModel
       def self.included(receiver)
         receiver.class_exec do
+          field :friend_ids, :type => Array, :default => [], :accessible => true
+          field :inverse_friend_ids, :type => Array, :default => [], :accessible => true
+          field :pending_friend_ids, :type => Array, :default => [], :accessible => true
+          field :pending_inverse_friend_ids, :type => Array, :default => [], :accessible => true
+          field :blocked_friend_ids, :type => Array, :default => [], :accessible => true
+          field :blocked_inverse_friend_ids, :type => Array, :default => [], :accessible => true
+          field :blocked_pending_friend_ids, :type => Array, :default => [], :accessible => true
+          field :blocked_pending_inverse_friend_ids, :type => Array, :default => [], :accessible => true
+          
+          %w(friend_ids inverse_friend_ids pending_friend_ids pending_inverse_friend_ids blocked_friend_ids blocked_inverse_friend_ids blocked_pending_friend_ids blocked_pending_inverse_friend_ids).each do |attribute|
+            define_method(attribute.to_sym) do
+              value = read_attribute(attribute)
+              write_attribute(attribute, value = []) if value.nil?
+              value
+            end
+          end
+          
           include InstanceMethods
-
-          field :friend_ids, :type => Array, :default => []
-          field :inverse_friend_ids, :type => Array, :default => []
-          field :pending_friend_ids, :type => Array, :default => []
-          field :pending_inverse_friend_ids, :type => Array, :default => []
-
-          field :blocked_friend_ids, :type => Array, :default => []
-          field :blocked_inverse_friend_ids, :type => Array, :default => []
-          field :blocked_pending_friend_ids, :type => Array, :default => []
-          field :blocked_pending_inverse_friend_ids, :type => Array, :default => []
-
-          attr_accessible :friend_ids, :inverse_friend_ids, :pending_friend_ids, :pending_inverse_friend_ids, :blocked_friend_ids, :blocked_inverse_friend_ids, :blocked_pending_friend_ids, :blocked_pending_inverse_friend_ids
         end
       end
 
-      module InstanceMethods
+      module InstanceMethods                
         # suggest a user to become a friend. If the operation succeeds, the method returns true, else false
         def invite(user)
           return false if friendshiped_with?(user) or user == self or blocked?(user)

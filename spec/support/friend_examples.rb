@@ -1,10 +1,4 @@
 shared_examples_for "a friend model" do
-  before(:all) do
-    %w(John Jane David James Peter Mary Victoria Elisabeth).each do |name|
-      instance_variable_set("@#{name.downcase}".to_sym, User.create(:name => name))
-    end
-  end
-
   context "when creating friendships" do
     before(:each) do
       reset_friendships

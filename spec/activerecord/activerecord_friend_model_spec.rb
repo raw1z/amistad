@@ -5,5 +5,9 @@ describe Amistad::ActiveRecord::FriendModel do
     Friendship.delete_all
   end
   
+  before(:all) do
+    create_users
+  end
+  
   it_should_behave_like "a friend model"
 end
