@@ -108,11 +108,11 @@ You can also find the friends that two users have in common :
     
 ### Removing friendships ###
 
-The __remove()__ method allow a user to remove its friendships :
+The __remove_friendship()__ method allow a user to remove its friendships :
 
-    @john.remove @jane
-    @john.remove @peter
-    @john.remove @victoria
+    @john.remove_friendship @jane
+    @john.remove_friendship @peter
+    @john.remove_friendship @victoria
     
 ### Blocking friendships ###
 
