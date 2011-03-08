@@ -143,8 +143,8 @@ The __unblock()__ method allow a user to unblock previously blocked friendship w
 
 It is possible to test amistad by running one of the following commands from the gem directory:
 
-    rake spec:activerecord # activerecord tests
-    rake spec:mongoid      # mongoid tests
+    rspec spec/activerecord/ # activerecord tests
+    rspec spec/mongoid/      # mongoid tests
     
 Remember that amistad is only compatible with ActiveRecord 3.x and Mongoid.
 
