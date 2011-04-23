@@ -1,6 +1,6 @@
 # amistad #
 
-Amistad adds friendships management into a rails 3.0 application. it supports ActiveRecord and Mongoid.
+Amistad adds friendships management into a rails 3.0 application. it supports ActiveRecord 3.0.x and Mongoid 2.0.x.
 
 ## Installation ##
 
@@ -146,7 +146,7 @@ It is possible to test amistad by running one of the following commands from the
     rspec spec/activerecord/ # activerecord tests
     rspec spec/mongoid/      # mongoid tests
     
-Remember that amistad is only compatible with ActiveRecord 3.x and Mongoid.
+Remember that amistad is only compatible with ActiveRecord 3.0.x and Mongoid 2.0.x.
 
 ## Contributors ##
 
