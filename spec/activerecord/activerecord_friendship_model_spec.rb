@@ -3,8 +3,28 @@ require File.dirname(__FILE__) + "/activerecord_spec_helper"
 describe Amistad::ActiveRecord::FriendshipModel do
 
   before(:all) do
-    %w(Jane David).each do |name|
+    %w(Jane David Bob).each do |name|
       instance_variable_set("@#{name.downcase}".to_sym, User.create(:name => name))
+    end
+  end
+
+  context "when finding one user from another" do
+    before do
+      Friendship.delete_all
+      @jane.invite(@david)
+      @friendship = Friendship.first
+    end
+
+    it "should find the invited friend given the inviting friend" do
+      @friendship.friend_with(@jane).should == @david
+    end
+
+    it "should find the inviting friend given the invited friend" do
+      @friendship.friend_with(@david).should == @jane
+    end
+
+    it "should return nil if the friendship does not include the user" do
+      @friendship.friend_with(@bob).should be_nil
     end
   end
 
