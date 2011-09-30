@@ -10,24 +10,24 @@ module Amistad
           has_many  :pending_invited,
           :through => :friendships,
           :source => :friend,
-          :conditions => { :'friendships.pending' => true, :'friendships.blocker_id' => nil }
+          :conditions => "friendships.pending = true AND friendships.blocker_id IS NULL"
 
           has_many  :invited,
           :through => :friendships,
           :source => :friend,
-          :conditions => { :'friendships.pending' => false, :'friendships.blocker_id' => nil }
+          :conditions => "friendships.pending = false AND friendships.blocker_id IS NULL"
 
           has_many  :inverse_friendships, :class_name => "Friendship", :foreign_key => "friend_id"
 
           has_many  :pending_invited_by,
           :through => :inverse_friendships,
           :source => :user,
-          :conditions => { :'friendships.pending' => true, :'friendships.blocker_id' => nil }
+          :conditions => "friendships.pending = true AND friendships.blocker_id IS NULL"
 
           has_many  :invited_by,
           :through => :inverse_friendships,
           :source => :user,
-          :conditions => { :'friendships.pending' => false, :'friendships.blocker_id' => nil }
+          :conditions => "friendships.pending = false AND friendships.blocker_id IS NULL"
 
           has_many  :blocked_friendships, :class_name => "Friendship", :foreign_key => "blocker_id"
 
