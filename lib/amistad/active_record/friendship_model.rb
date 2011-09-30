@@ -44,6 +44,14 @@ module Amistad
         def can_unblock?(user)
           blocked? && self.blocker == user
         end
+
+        def friend_with(user)
+          if user == self.user
+            return self.friend
+          elsif user == self.friend
+            return self.user
+          end
+        end
       end
     end
   end
