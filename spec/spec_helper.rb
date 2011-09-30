@@ -1,4 +1,6 @@
 require 'rspec'
+require 'active_record'
+require 'mongoid'
 require 'amistad'
 Dir["#{File.dirname(__FILE__)}/support/*.rb"].each {|f| require f}
 
