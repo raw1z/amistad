@@ -5,12 +5,12 @@ require 'rspec'
 require 'rspec/core/rake_task'
 
 namespace :spec do
-  Rspec::Core::RakeTask.new(:activerecord) do |t|
+  RSpec::Core::RakeTask.new(:activerecord) do |t|
     t.pattern = "./spec/activerecord/**/*_spec.rb"
     t.rspec_opts = "--format Fuubar"
   end
 
-  Rspec::Core::RakeTask.new(:mongoid) do |t|
+  RSpec::Core::RakeTask.new(:mongoid) do |t|
     t.pattern = "./spec/mongoid/**/*_spec.rb"
     t.rspec_opts = "--format Fuubar"
   end
