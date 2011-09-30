@@ -4,3 +4,4 @@ pkg/*
 spec/db/*.db
 Gemfile.lock
 nbproject
+.rvmrc
