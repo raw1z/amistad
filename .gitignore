@@ -2,6 +2,5 @@ pkg/*
 *.gem
 .bundle
 spec/db/*.db
-Gemfile.lock
 nbproject
 .rvmrc

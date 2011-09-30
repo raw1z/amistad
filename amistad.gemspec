@@ -14,13 +14,14 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "amistad"
 
-  s.add_development_dependency "bundler", "~>1.0.12"
-  s.add_development_dependency "rspec", "~> 2.5.0"
-  s.add_development_dependency "activerecord", "~> 3.0.7"
-  s.add_development_dependency "sqlite3", ">= 1.3.2"
+  s.add_development_dependency "bundler"
+  s.add_development_dependency "rake"
+  s.add_development_dependency "rspec"
+  s.add_development_dependency "activerecord"
+  s.add_development_dependency "sqlite3"
   s.add_development_dependency "mongoid", "~> 2.0.0"
   s.add_development_dependency "bson_ext", "~> 1.3"
-  s.add_development_dependency "fuubar", "~> 0.0.4"
+  s.add_development_dependency "fuubar"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
