@@ -148,6 +148,8 @@ It is possible to test amistad by running one of the following commands from the
     
 Remember that amistad is only compatible with ActiveRecord 3.0.x and Mongoid 2.0.x.
 
+You can also run `rake` by itself and it will run the ActiveRecord tests followed by the Mongoid tests.
+
 ## Contributors ##
 
 * David Czarnecki : block friendships (and many other improvements)

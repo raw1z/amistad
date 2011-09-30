@@ -16,3 +16,7 @@ namespace :spec do
   end
 end
 
+task :default do
+  Rake::Task['spec:activerecord'].invoke
+  Rake::Task['spec:mongoid'].invoke
+end
