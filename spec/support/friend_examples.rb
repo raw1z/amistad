@@ -1,9 +1,5 @@
 shared_examples_for "a friend model" do
   context "when creating friendships" do
-    before(:each) do
-      reset_friendships
-    end
-
     it "should invite other users to friends" do
       @john.invite(@jane).should be_true
       @victoria.invite(@john).should be_true
@@ -54,7 +50,6 @@ shared_examples_for "a friend model" do
 
   context "when listing friendships" do
     before(:each) do
-      reset_friendships
       @john.invite(@jane).should be_true
       @peter.invite(@john).should be_true
       @john.invite(@james).should be_true
@@ -152,7 +147,6 @@ shared_examples_for "a friend model" do
 
   context "when removing friendships" do
     before(:each) do
-      reset_friendships
       @jane.invite(@james).should be_true
       @james.approve(@jane).should be_true
       @james.invite(@victoria).should be_true
@@ -226,7 +220,6 @@ shared_examples_for "a friend model" do
 
   context "when blocking friendships" do
     before(:each) do
-      reset_friendships
       @john.invite(@james).should be_true
       @james.approve(@john).should be_true
       @james.block(@john).should be_true
@@ -316,7 +309,6 @@ shared_examples_for "a friend model" do
 
   context "when unblocking friendships" do
     before(:each) do
-      reset_friendships
       @john.invite(@james).should be_true
       @james.approve(@john).should be_true
       @john.block(@james).should be_true
@@ -386,11 +378,10 @@ shared_examples_for "a friend model" do
 
   context "when counting friendships and blocks" do
     before do
-      reset_friendships
       @john.invite(@james).should be_true
       @james.approve(@john).should be_true
       @john.invite(@victoria).should be_true
-      @victoria.approve(@john).should be_true      
+      @victoria.approve(@john).should be_true
       @elisabeth.invite(@john).should be_true
       @john.approve(@elisabeth).should be_true
 

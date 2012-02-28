@@ -1,26 +1,16 @@
-require File.dirname(__FILE__) + "/activerecord_spec_helper"
-
-describe Amistad::ActiveRecord::FriendshipModel do
-
-  before(:all) do
-    %w(Jane David).each do |name|
-      instance_variable_set("@#{name.downcase}".to_sym, User.create(:name => name))
-    end
-  end
-
+shared_examples_for "the friendship model" do  
   it "should validate presence of the user's id and the friend's id" do
-    friendship = Friendship.new
+    friendship = Amistad.friendship_class.new
     friendship.valid?.should be_false
-    friendship.errors.should include(:user_id)
+    friendship.errors.should include(:friendable_id)
     friendship.errors.should include(:friend_id)
     friendship.errors.size.should == 2
   end
 
   context "when creating friendship" do
     before do
-      Friendship.delete_all
       @jane.invite(@david)
-      @friendship = Friendship.first
+      @friendship = Amistad.friendship_class.first
     end
 
     it "should be pending" do
@@ -41,10 +31,10 @@ describe Amistad::ActiveRecord::FriendshipModel do
 
     it "should be available to block only by invited user" do
       @friendship.can_block?(@david).should be_true
-      @friendship.can_block?(@sane).should be_false
+      @friendship.can_block?(@jane).should be_false
     end
 
-    it "should not be availabel to unblock" do
+    it "should not be available to unblock" do
       @friendship.can_unblock?(@jane).should be_false
       @friendship.can_unblock?(@david).should be_false
     end
@@ -52,10 +42,9 @@ describe Amistad::ActiveRecord::FriendshipModel do
 
   context "when approving friendship" do
     before do
-      Friendship.delete_all
       @jane.invite(@david)
       @david.approve(@jane)
-      @friendship = Friendship.first
+      @friendship = Amistad.friendship_class.first
     end
 
     it "should be approved" do
@@ -75,7 +64,7 @@ describe Amistad::ActiveRecord::FriendshipModel do
     end
 
     it "should be available to block by both users" do
-      @friendship.can_block?(@sane).should be_true
+      @friendship.can_block?(@jane).should be_true
       @friendship.can_block?(@david).should be_true
     end
 
@@ -87,10 +76,9 @@ describe Amistad::ActiveRecord::FriendshipModel do
 
   context "when blocking friendship" do
     before do
-      Friendship.delete_all
       @jane.invite(@david)
       @david.block(@jane)
-      @friendship = Friendship.first
+      @friendship = Amistad.friendship_class.first
     end
 
     it "should not be approved" do
@@ -110,7 +98,7 @@ describe Amistad::ActiveRecord::FriendshipModel do
     end
 
     it "should not be available to block" do
-      @friendship.can_block?(@sane).should be_false
+      @friendship.can_block?(@jane).should be_false
       @friendship.can_block?(@david).should be_false
     end
 
