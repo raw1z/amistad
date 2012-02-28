@@ -18,10 +18,12 @@ Gem::Specification.new do |s|
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec"
   s.add_development_dependency "activerecord"
+  s.add_development_dependency "database_cleaner"
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "mongoid", "~> 2.0.0"
   s.add_development_dependency "bson_ext", "~> 1.3"
   s.add_development_dependency "fuubar"
+  s.add_development_dependency "awesome_print"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

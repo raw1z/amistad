@@ -1,11 +1,32 @@
-if defined?(ActiveRecord)
-  require 'amistad/active_record/friend_model'
-  require 'amistad/active_record/friendship_model'
-end
+require 'active_support/concern'
+require 'active_support/dependencies/autoload'
 
-if defined?(Mongoid)
-  require 'amistad/mongoid/friend_model'
-end
+module Amistad
+  extend ActiveSupport::Autoload
 
-require 'amistad/friend_model'
-require 'amistad/friendship_model'
+  autoload :ActiveRecordFriendModel
+  autoload :ActiveRecordFriendshipModel
+  autoload :FriendshipModel
+  autoload :FriendModel
+  autoload :Friendship
+
+  class << self
+    attr_accessor :friend_model
+
+    def configure
+      yield self
+    end
+
+    def friend_model
+      @friend_model || 'User'
+    end
+
+    def friendship_model
+      "#{self.friend_model}Friendship"
+    end
+
+    def friendship_class
+      Amistad::Friendship.const_get(self.friendship_model)
+    end
+  end
+end
