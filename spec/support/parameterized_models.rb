@@ -1,6 +1,6 @@
 shared_examples_for "friend with parameterized models" do
   context "When users are created after activating amistad" do
-    before(:all) do
+    before(:each) do
       activate_amistad(friend_model_param)
       create_users(friend_model_param)
     end
@@ -9,7 +9,7 @@ shared_examples_for "friend with parameterized models" do
   end
 
   context "When users are created before activating amistad" do
-    before(:all) do
+    before(:each) do
       create_users(friend_model_param)
       activate_amistad(friend_model_param)
     end

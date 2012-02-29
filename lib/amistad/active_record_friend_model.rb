@@ -2,8 +2,6 @@ module Amistad
   module ActiveRecordFriendModel
     def self.included(receiver)
       receiver.class_exec do
-        include InstanceMethods
-
         #####################################################################################
         # friendships
         #####################################################################################
@@ -57,103 +55,101 @@ module Amistad
       end
     end
 
-    module InstanceMethods
-      # suggest a user to become a friend. If the operation succeeds, the method returns true, else false
-      def invite(user)
-        return false if user == self || find_any_friendship_with(user)
-        Amistad.friendship_class.new(:friendable_id => self.id, :friend_id => user.id).save
-      end
+    # suggest a user to become a friend. If the operation succeeds, the method returns true, else false
+    def invite(user)
+      return false if user == self || find_any_friendship_with(user)
+      Amistad.friendship_class.new(:friendable_id => self.id, :friend_id => user.id).save
+    end
 
-      # approve a friendship invitation. If the operation succeeds, the method returns true, else false
-      def approve(user)
-        friendship = find_any_friendship_with(user)
-        return false if friendship.nil? || invited?(user)
-        friendship.update_attribute(:pending, false)
-      end
+    # approve a friendship invitation. If the operation succeeds, the method returns true, else false
+    def approve(user)
+      friendship = find_any_friendship_with(user)
+      return false if friendship.nil? || invited?(user)
+      friendship.update_attribute(:pending, false)
+    end
 
-      # deletes a friendship
-      def remove_friendship(user)
-        friendship = find_any_friendship_with(user)
-        return false if friendship.nil?
-        friendship.destroy && friendship.destroyed?
-      end
+    # deletes a friendship
+    def remove_friendship(user)
+      friendship = find_any_friendship_with(user)
+      return false if friendship.nil?
+      friendship.destroy && friendship.destroyed?
+    end
 
-      # returns the list of approved friends
-      def friends
-        self.invited(true) + self.invited_by(true)
-      end
+    # returns the list of approved friends
+    def friends
+      self.invited(true) + self.invited_by(true)
+    end
 
-      # total # of invited and invited_by without association loading
-      def total_friends
-        self.invited(false).count + self.invited_by(false).count
-      end
+    # total # of invited and invited_by without association loading
+    def total_friends
+      self.invited(false).count + self.invited_by(false).count
+    end
 
-      # blocks a friendship
-      def block(user)
-        friendship = find_any_friendship_with(user)
-        return false if friendship.nil? || !friendship.can_block?(self)
-        friendship.update_attribute(:blocker, self)
-      end
+    # blocks a friendship
+    def block(user)
+      friendship = find_any_friendship_with(user)
+      return false if friendship.nil? || !friendship.can_block?(self)
+      friendship.update_attribute(:blocker, self)
+    end
 
-      # unblocks a friendship
-      def unblock(user)
-        friendship = find_any_friendship_with(user)
-        return false if friendship.nil? || !friendship.can_unblock?(self)
-        friendship.update_attribute(:blocker, nil)
-      end
+    # unblocks a friendship
+    def unblock(user)
+      friendship = find_any_friendship_with(user)
+      return false if friendship.nil? || !friendship.can_unblock?(self)
+      friendship.update_attribute(:blocker, nil)
+    end
 
-      # returns the list of blocked friends
-      def blocked
-        self.blockades(true) + self.blockades_by(true)
-      end
+    # returns the list of blocked friends
+    def blocked
+      self.blockades(true) + self.blockades_by(true)
+    end
 
-      # total # of blockades and blockedes_by without association loading
-      def total_blocked
-        self.blockades(false).count + self.blockades_by(false).count
-      end
+    # total # of blockades and blockedes_by without association loading
+    def total_blocked
+      self.blockades(false).count + self.blockades_by(false).count
+    end
 
-      # checks if a user is blocked
-      def blocked?(user)
-        blocked.include?(user)
-      end
+    # checks if a user is blocked
+    def blocked?(user)
+      blocked.include?(user)
+    end
 
-      # checks if a user is a friend
-      def friend_with?(user)
-        friends.include?(user)
-      end
+    # checks if a user is a friend
+    def friend_with?(user)
+      friends.include?(user)
+    end
 
-      # checks if a current user is connected to given user
-      def connected_with?(user)
-        find_any_friendship_with(user).present?
-      end
+    # checks if a current user is connected to given user
+    def connected_with?(user)
+      find_any_friendship_with(user).present?
+    end
 
-      # checks if a current user received invitation from given user
-      def invited_by?(user)
-        friendship = find_any_friendship_with(user)
-        return false if friendship.nil?
-        friendship.friendable == user
-      end
+    # checks if a current user received invitation from given user
+    def invited_by?(user)
+      friendship = find_any_friendship_with(user)
+      return false if friendship.nil?
+      friendship.friendable == user
+    end
 
-      # checks if a current user invited given user
-      def invited?(user)
-        friendship = find_any_friendship_with(user)
-        return false if friendship.nil?
-        friendship.friend == user
-      end
+    # checks if a current user invited given user
+    def invited?(user)
+      friendship = find_any_friendship_with(user)
+      return false if friendship.nil?
+      friendship.friend == user
+    end
 
-      # return the list of the ones among its friends which are also friend with the given use
-      def common_friends_with(user)
-        self.friends & user.friends
-      end
+    # return the list of the ones among its friends which are also friend with the given use
+    def common_friends_with(user)
+      self.friends & user.friends
+    end
 
-      # returns friendship with given user or nil
-      def find_any_friendship_with(user)
-        friendship = Amistad.friendship_class.where(:friendable_id => self.id, :friend_id => user.id).first
-        if friendship.nil?
-          friendship = Amistad.friendship_class.where(:friendable_id => user.id, :friend_id => self.id).first
-        end
-        friendship
+    # returns friendship with given user or nil
+    def find_any_friendship_with(user)
+      friendship = Amistad.friendship_class.where(:friendable_id => self.id, :friend_id => user.id).first
+      if friendship.nil?
+        friendship = Amistad.friendship_class.where(:friendable_id => user.id, :friend_id => self.id).first
       end
+      friendship
     end
   end
 end

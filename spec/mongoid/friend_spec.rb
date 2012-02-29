@@ -1,12 +1,6 @@
 require File.dirname(__FILE__) + '/mongoid_spec_helper'
 
-describe Amistad::Mongoid::FriendModel do
-  def reset_friendships
-    %w(john jane david james peter mary victoria elisabeth).each do |var|
-      eval "@#{var}.delete_all_friendships.should be_true"
-    end
-  end
-
+describe "The friend model" do
   before(:all) do
     reload_environment
 

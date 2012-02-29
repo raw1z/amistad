@@ -6,6 +6,7 @@ module Amistad
 
   autoload :ActiveRecordFriendModel
   autoload :ActiveRecordFriendshipModel
+  autoload :MongoidFriendModel
   autoload :FriendshipModel
   autoload :FriendModel
   autoload :Friendship
