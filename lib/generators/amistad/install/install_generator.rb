@@ -16,7 +16,6 @@ module Amistad
 
       desc "This generator creates a friendship model and its migration file"
       def create_friendship_model_files
-        template 'friendship.rb', 'app/models/friendship.rb'
         template 'create_friendships.rb', "db/migrate/#{self.class.next_migration_number}_create_friendships.rb"
       end
     end
