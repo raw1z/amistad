@@ -7,7 +7,7 @@ module Amistad
       # friendships
       #####################################################################################
       has_many  :friendships,
-        :class_name => "Amistad::Friendship::#{Amistad.friendship_model}",
+        :class_name => "Amistad::Friendships::#{Amistad.friendship_model}",
         :foreign_key => "friendable_id"
 
       has_many  :pending_invited,
@@ -24,7 +24,7 @@ module Amistad
       # inverse friendships
       #####################################################################################
       has_many  :inverse_friendships,
-        :class_name => "Amistad::Friendship::#{Amistad.friendship_model}",
+        :class_name => "Amistad::Friendships::#{Amistad.friendship_model}",
         :foreign_key => "friend_id"
 
       has_many  :pending_invited_by,
@@ -41,7 +41,7 @@ module Amistad
       # blocked friendships
       #####################################################################################
       has_many  :blocked_friendships,
-        :class_name => "Amistad::Friendship::#{Amistad.friendship_model}",
+        :class_name => "Amistad::Friendships::#{Amistad.friendship_model}",
         :foreign_key => "blocker_id"
 
       has_many  :blockades,

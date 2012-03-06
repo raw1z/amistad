@@ -10,5 +10,5 @@ module Amistad
   autoload :MongoidFriendModel
   autoload :FriendshipModel
   autoload :FriendModel
-  autoload :Friendship
+  autoload :Friendships
 end

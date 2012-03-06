@@ -1,5 +1,5 @@
 module Amistad
-  module Friendship
+  module Friendships
     if Object.const_defined? :ActiveRecord
       const_set Amistad.friendship_model, Class.new(ActiveRecord::Base)
       const_get(Amistad.friendship_model.to_sym).class_exec do

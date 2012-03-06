@@ -15,7 +15,7 @@ module Amistad
     end
 
     def friendship_class
-      Amistad::Friendship.const_get(self.friendship_model)
+      Amistad::Friendships.const_get(self.friendship_model)
     end
   end
 end
