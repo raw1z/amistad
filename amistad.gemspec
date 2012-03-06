@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Rawane ZOSSOU"]
   s.email       = ["dev@raw1z.fr"]
-  s.homepage    = "http://github.com/raw1z/amistad"
+  s.homepage    = "https://github.com/raw1z/amistad/wiki"
   s.summary     = %q{Adds friendships management into a rails 3.0 application}
   s.description = %q{Extends your user model with friendships management methods}
 
