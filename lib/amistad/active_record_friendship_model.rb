@@ -17,6 +17,8 @@ module Amistad
 
       validates_presence_of :friendable_id, :friend_id
       validates_uniqueness_of :friend_id, :scope => :friendable_id
+      
+      attr_accessible :friendable_id, :friend_id, :blocker_id, :pending
     end
 
     # returns true if a friendship has been approved, else false
