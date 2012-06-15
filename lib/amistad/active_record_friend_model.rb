@@ -130,14 +130,14 @@ module Amistad
     def invited_by?(user)
       friendship = find_any_friendship_with(user)
       return false if friendship.nil?
-      friendship.friendable == user
+      friendship.friendable_id == user.id
     end
 
     # checks if a current user invited given user
     def invited?(user)
       friendship = find_any_friendship_with(user)
       return false if friendship.nil?
-      friendship.friend == user
+      friendship.friend_id == user.id
     end
 
     # return the list of the ones among its friends which are also friend with the given use
