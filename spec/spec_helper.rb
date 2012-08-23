@@ -8,7 +8,7 @@ Dir["#{File.dirname(__FILE__)}/support/*.rb"].each {|f| require f}
 def create_users(friend_model)
   friend_model.delete_all
   %w(John Jane David James Peter Mary Victoria Elisabeth).each do |name|
-    instance_variable_set("@#{name.downcase}".to_sym, friend_model.create(:name => name))
+    instance_variable_set("@#{name.downcase}".to_sym, friend_model.create{ |fm| fm.name = name})
   end
 end
 
