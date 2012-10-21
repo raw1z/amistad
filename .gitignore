@@ -5,3 +5,4 @@ spec/db/*.db
 nbproject
 .rvmrc
 *.sw[a-z]
+.rspec
