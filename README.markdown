@@ -18,14 +18,39 @@ Refer to the wiki pages for usage and friendships management.
 
 ## Testing ##
 
-It is possible to test amistad by running one of the following commands from the gem directory:
+There are rake tasks available which allow you to run the activerecord tests for three rdbms:
 
-    rspec spec/activerecord # activerecord tests
-    rspec spec/mongoid      # mongoid tests
-    
-Remember that amistad is only compatible with ActiveRecord 3.0.x and Mongoid 2.0.x.
+    rake spec:activerecord:sqlite
+    rake spec:activerecord:mysql
+    rake spec:activerecord:postgresql
 
-You can also run `rake` by itself and it will run the ActiveRecord tests followed by the Mongoid tests.
+In order to run these tasks you need to create a confiuration file for the databases connections:
+
+    spec/support/activerecord/database.yml
+
+    sqlite:
+      adapter: "sqlite3"
+      database: ":memory:"
+
+    mysql:
+      adapter: mysql2
+      encoding: utf8
+      database: <name of mysql database>
+      username: <username>
+      password: <password>
+
+    postgresql:
+      adapter: postgresql
+      encoding: unicode
+      database: <name of postgresql database>
+      username: <username>
+      password: <password>
+
+Of course there is one rake task for running mongoid tests:
+
+    rake spec:mongoid
+
+The default rake tasks runs the ActiveRecord tests for the three rdbms followed by the Mongoid tests.
 
 ## Contributors ##
 
