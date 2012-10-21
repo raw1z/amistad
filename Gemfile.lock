@@ -30,6 +30,12 @@ GEM
       rspec-instafail (~> 0.2.0)
       ruby-progressbar (~> 1.0.0)
     i18n (0.6.1)
+    mongo (1.7.0)
+      bson (~> 1.7.0)
+    mongo_mapper (0.12.0)
+      activemodel (~> 3.0)
+      activesupport (~> 3.0)
+      plucky (~> 0.5.2)
     mongoid (3.0.9)
       activemodel (~> 3.1)
       moped (~> 1.1)
@@ -40,6 +46,8 @@ GEM
     mysql2 (0.3.11)
     origin (1.0.9)
     pg (0.14.1)
+    plucky (0.5.2)
+      mongo (~> 1.5)
     rake (0.9.2.2)
     rspec (2.11.0)
       rspec-core (~> 2.11.0)
@@ -65,6 +73,7 @@ DEPENDENCIES
   bundler
   database_cleaner
   fuubar
+  mongo_mapper
   mongoid
   mysql2
   pg
