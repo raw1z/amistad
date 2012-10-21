@@ -17,7 +17,7 @@ describe 'Custom friend model' do
     Profile = Class.new
     Profile.class_exec do
       include Mongoid::Document
-      field :name, :require => true
+      field :name
     end
   end
 

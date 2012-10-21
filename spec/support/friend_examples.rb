@@ -371,7 +371,6 @@ shared_examples_for "a friend model" do
     end
 
     it "should list unblocked users in pending invited by" do
-      @david.reload
       @david.pending_invited_by.should == [@victoria]
     end
   end

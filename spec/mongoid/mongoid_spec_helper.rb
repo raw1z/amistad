@@ -2,13 +2,11 @@ require "spec_helper"
 require 'mongoid'
 
 Mongoid.configure do |config|
-  name = "amistad_test"
-  host = "localhost"
-  config.master = Mongo::Connection.new.db(name)
+  config.connect_to  "amistad_test"
 end
 
 RSpec.configure do |config|
   config.before(:each) do
-    Mongoid.master.collections.select {|c| c.name !~ /system/ }.each(&:drop)
+    Mongoid.purge!
   end
 end

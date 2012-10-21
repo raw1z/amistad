@@ -5,43 +5,46 @@ module Amistad
     included do
       field :friend_ids,
         :type => Array,
-        :default => [],
-        :accessible => true
+        :default => []
 
       field :inverse_friend_ids,
         :type => Array,
-        :default => [],
-        :accessible => true
+        :default => []
 
       field :pending_friend_ids,
         :type => Array,
-        :default => [],
-        :accessible => true
+        :default => []
 
       field :pending_inverse_friend_ids,
         :type => Array,
-        :default => [],
-        :accessible => true
+        :default => []
 
       field :blocked_friend_ids,
         :type => Array,
-        :default => [],
-        :accessible => true
+        :default => []
 
       field :blocked_inverse_friend_ids,
         :type => Array,
-        :default => [],
-        :accessible => true
+        :default => []
 
       field :blocked_pending_friend_ids,
         :type => Array,
-        :default => [],
-        :accessible => true
+        :default => []
 
       field :blocked_pending_inverse_friend_ids,
         :type => Array,
-        :default => [],
-        :accessible => true
+        :default => []
+
+      attr_accessible(
+        :friend_ids,
+        :inverse_friend_ids,
+        :pending_friend_ids,
+        :pending_inverse_friend_ids,
+        :blocked_friend_ids,
+        :blocked_inverse_friend_ids,
+        :blocked_pending_friend_ids,
+        :blocked_pending_inverse_friend_ids,
+      )
 
       %w(friend_ids inverse_friend_ids pending_friend_ids pending_inverse_friend_ids blocked_friend_ids blocked_inverse_friend_ids blocked_pending_friend_ids blocked_pending_inverse_friend_ids).each do |attribute|
         define_method(attribute.to_sym) do

@@ -7,7 +7,7 @@ describe "The friend model" do
     User = Class.new
     User.class_exec do
       include Mongoid::Document
-      field :name, :require => true
+      field :name
     end
   end
 
