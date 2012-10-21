@@ -1,6 +1,6 @@
 # amistad #
 
-Amistad adds friendships management into a rails 3.0 application. it supports ActiveRecord 3.0.x and Mongoid 2.0.x.
+Amistad adds friendships management into a rails 3.0 application. it supports ActiveRecord 3.0.x, Mongoid 3.0.x and MongoMapper 0.12.0.
 
 ## Installation ##
 
@@ -46,9 +46,10 @@ In order to run these tasks you need to create a confiuration file for the datab
       username: <username>
       password: <password>
 
-Of course there is one rake task for running mongoid tests:
+Of course there are some tasks for running mongodb orms based tests:
 
     rake spec:mongoid
+    rake spec:mongo_mapper
 
 The default rake tasks runs the ActiveRecord tests for the three rdbms followed by the Mongoid tests.
 

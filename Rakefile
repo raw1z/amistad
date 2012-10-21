@@ -5,13 +5,21 @@ require 'rspec'
 require 'rspec/core/rake_task'
 
 namespace :spec do
+  desc "Run Rspec tests for ActiveRecord (with sqlite as RDBM)"
   RSpec::Core::RakeTask.new(:activerecord) do |t|
     t.pattern = "./spec/activerecord/**/*_spec.rb"
     t.rspec_opts = "--format Fuubar"
   end
 
+  desc "Run Rspec tests for Mongoid"
   RSpec::Core::RakeTask.new(:mongoid) do |t|
     t.pattern = "./spec/mongoid/**/*_spec.rb"
+    t.rspec_opts = "--format Fuubar"
+  end
+
+  desc "Run Rspec tests for MongoMapper"
+  RSpec::Core::RakeTask.new(:mongo_mapper) do |t|
+    t.pattern = "./spec/mongo_mapper/**/*_spec.rb"
     t.rspec_opts = "--format Fuubar"
   end
 
@@ -44,4 +52,5 @@ task :default do
   Rake::Task['spec:activerecord:mysql'].invoke
   Rake::Task['spec:activerecord:postgresql'].invoke
   Rake::Task['spec:mongoid'].invoke
+  Rake::Task['spec:mongo_mapper'].invoke
 end
