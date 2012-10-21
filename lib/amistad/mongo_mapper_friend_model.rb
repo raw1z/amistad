@@ -1,38 +1,38 @@
 module Amistad
-  module MongoidFriendModel
+  module MongoMapperFriendModel
     extend ActiveSupport::Concern
 
     included do
-      field :friend_ids,
-        :type => Array,
+      key :friend_ids,
+        Array,
         :default => []
 
-      field :inverse_friend_ids,
-        :type => Array,
+      key :inverse_friend_ids,
+        Array,
         :default => []
 
-      field :pending_friend_ids,
-        :type => Array,
+      key :pending_friend_ids,
+        Array,
         :default => []
 
-      field :pending_inverse_friend_ids,
-        :type => Array,
+      key :pending_inverse_friend_ids,
+        Array,
         :default => []
 
-      field :blocked_friend_ids,
-        :type => Array,
+      key :blocked_friend_ids,
+        Array,
         :default => []
 
-      field :blocked_inverse_friend_ids,
-        :type => Array,
+      key :blocked_inverse_friend_ids,
+        Array,
         :default => []
 
-      field :blocked_pending_friend_ids,
-        :type => Array,
+      key :blocked_pending_friend_ids,
+        Array,
         :default => []
 
-      field :blocked_pending_inverse_friend_ids,
-        :type => Array,
+      key :blocked_pending_inverse_friend_ids,
+        Array,
         :default => []
 
       attr_accessible(
