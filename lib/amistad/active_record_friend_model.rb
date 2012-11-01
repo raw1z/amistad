@@ -94,13 +94,10 @@ module Amistad
         ( blocker_id == nil     )
       }
 
-      predicate = self.class.where{
+      self.class.where{
         ( id.in(approved_friendships.select{friend_id})              ) |
         ( id.in(approved_inverse_friendships.select{friendable_id})  )
       }
-
-      # puts predicate.to_sql
-      predicate
     end
 
     # total # of invited and invited_by without association loading
