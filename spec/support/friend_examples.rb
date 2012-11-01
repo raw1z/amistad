@@ -166,6 +166,7 @@ shared_examples_for "a friend model" do
       @mary.friends.size.should == 1
       @mary.friends.should include(@victoria)
       @mary.invited_by.should include(@victoria)
+
       @victoria.remove_friendship(@mary).should be_true
       @victoria.friends.size.should == 2
       @victoria.friends.should_not include(@mary)
@@ -182,6 +183,7 @@ shared_examples_for "a friend model" do
       @james.friends.size.should == 2
       @james.friends.should include(@victoria)
       @james.invited.should include(@victoria)
+
       @victoria.remove_friendship(@james).should be_true
       @victoria.friends.size.should == 2
       @victoria.friends.should_not include(@james)
