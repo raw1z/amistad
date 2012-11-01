@@ -14,7 +14,7 @@ Then run:
 
 ## Usage ##
 
-Refer to the wiki pages for usage and friendships management.
+Refer to the [wiki pages](https://github.com/raw1z/amistad/wiki) for usage and friendships management documentation.
 
 ## Testing ##
 
