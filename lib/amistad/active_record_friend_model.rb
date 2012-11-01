@@ -77,8 +77,32 @@ module Amistad
 
     # returns the list of approved friends
     def friends
-      self.reload
-      self.invited + self.invited_by
+      friendship_model = Amistad::Friendships.const_get(:"#{Amistad.friendship_model}")
+
+      approved_friendships = friendship_model.where(
+        :friendable_id => self.id,
+        :pending       => false,
+        :blocker_id    => nil
+      )
+
+      approved_inverse_friendships = friendship_model.where(
+        :friend_id  => self.id,
+        :pending    => false,
+        :blocker_id => nil
+      )
+
+      # ids = approved_friendships.select(:friend_id).map(&:friend_id) + approved_inverse_friendships.select(:friendable_id).map(&:friendable_id)
+      puts self.class.where(
+        'id in (?) OR id in (?)',
+        approved_friendships.select(:friend_id).to_sql,
+        approved_inverse_friendships.select(:friendable_id).to_sql
+      ).to_sql
+
+      self.class.where(
+        'id in (?) OR id in (?)',
+        approved_friendships.select(:friend_id).to_sql,
+        approved_inverse_friendships.select(:friendable_id).to_sql
+      )
     end
 
     # total # of invited and invited_by without association loading
