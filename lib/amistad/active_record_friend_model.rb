@@ -1,3 +1,5 @@
+require 'squeel'
+
 module Amistad
   module ActiveRecordFriendModel
     extend ActiveSupport::Concern
@@ -72,13 +74,33 @@ module Amistad
     def remove_friendship(user)
       friendship = find_any_friendship_with(user)
       return false if friendship.nil?
-      friendship.destroy && friendship.destroyed?
+      friendship.destroy
+      self.reload && user.reload if friendship.destroyed?
     end
 
     # returns the list of approved friends
     def friends
-      self.reload
-      self.invited + self.invited_by
+      friendship_model = Amistad::Friendships.const_get(:"#{Amistad.friendship_model}")
+
+      approved_friendships = friendship_model.where{
+        ( friendable_id == my{id} ) &
+        ( pending       == false  ) &
+        ( blocker_id    == nil    )
+      }
+
+      approved_inverse_friendships = friendship_model.where{
+        ( friend_id  == my{id} ) &
+        ( pending    == false   ) &
+        ( blocker_id == nil     )
+      }
+
+      predicate = self.class.where{
+        ( id.in(approved_friendships.select{friend_id})              ) |
+        ( id.in(approved_inverse_friendships.select{friendable_id})  )
+      }
+
+      # puts predicate.to_sql
+      predicate
     end
 
     # total # of invited and invited_by without association loading
