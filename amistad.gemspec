@@ -14,6 +14,8 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "amistad"
 
+  s.add_dependency 'squeel'
+
   s.add_development_dependency "bundler"
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec"
@@ -27,7 +29,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "fuubar"
   s.add_development_dependency "awesome_print"
   s.add_development_dependency "mongo_mapper"
-  s.add_development_dependency "squeel"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
