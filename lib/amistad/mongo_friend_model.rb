@@ -20,7 +20,7 @@ module Amistad
 
     # returns the list of approved friends
     def friends
-      self.invited + self.invited_by
+      self.class.in(id: friend_ids + inverse_friend_ids)
     end
 
     # total # of invited and invited_by without association loading
@@ -30,22 +30,22 @@ module Amistad
 
     # return the list of invited friends
     def invited
-      self.class.find(friend_ids)
+      self.class.in(id: friend_ids)
     end
 
     # return the list of friends who invited
     def invited_by
-      self.class.find(inverse_friend_ids)
+      self.class.in(id: inverse_friend_ids)
     end
 
     # return the list of pending invited friends
     def pending_invited
-      self.class.find(pending_friend_ids)
+      self.class.in(id: pending_friend_ids)
     end
 
     # return the list of pending friends who invited
     def pending_invited_by
-      self.class.find(pending_inverse_friend_ids)
+      self.class.in(id: pending_inverse_friend_ids)
     end
 
     # return the list of the ones among its friends which are also friend with the given use
@@ -134,7 +134,7 @@ module Amistad
     # returns the list of blocked friends
     def blocked
       blocked_ids = blocked_friend_ids + blocked_inverse_friend_ids + blocked_pending_inverse_friend_ids
-      self.class.find(blocked_ids)
+      self.class.in(id: blocked_ids)
     end
 
     # total # of blockades and blockedes_by without association loading

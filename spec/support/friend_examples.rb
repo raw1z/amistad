@@ -59,14 +59,14 @@ shared_examples_for "a friend model" do
     end
 
     it "should list all the friends" do
-      @john.friends.should =~ [@mary, @james]
+      @john.friends.all.to_a.should =~ [@mary, @james]
     end
 
     it "should not list non-friended users" do
-      @victoria.friends.should be_empty
-      @john.friends.should =~ [@mary, @james]
-      @john.friends.should_not include(@peter)
-      @john.friends.should_not include(@victoria)
+      @victoria.friends.all.to_a.should be_empty
+      @john.friends.all.to_a.should =~ [@mary, @james]
+      @john.friends.all.to_a.should_not include(@peter)
+      @john.friends.all.to_a.should_not include(@victoria)
     end
 
     it "should list the friends who invited him" do
@@ -270,18 +270,18 @@ shared_examples_for "a friend model" do
     end
 
     it "should list the blocked users" do
-      @jane.blocked.should be_empty
-      @peter.blocked.should be_empty
-      @james.blocked.should == [@john]
-      @victoria.blocked.should == [@mary]
-      @david.blocked.should =~ [@john, @victoria]
+      @jane.blocked.all.to_a.should be_empty
+      @peter.blocked.all.to_a.should be_empty
+      @james.blocked.all.to_a.should == [@john]
+      @victoria.blocked.all.to_a.should == [@mary]
+      @david.blocked.all.to_a.should =~ [@john, @victoria]
     end
 
     it "should not list blocked users in friends" do
-      @james.friends.should =~ [@jane, @victoria]
+      @james.friends.all.to_a.should =~ [@jane, @victoria]
       @james.blocked.each do |user|
-        @james.friends.should_not include(user)
-        user.friends.should_not include(@james)
+        @james.friends.all.to_a.should_not include(user)
+        user.friends.all.to_a.should_not include(@james)
       end
     end
 
@@ -352,10 +352,10 @@ shared_examples_for "a friend model" do
     end
 
     it "should list unblocked users in friends" do
-      @john.friends.should == [@james]
-      @mary.friends.should == [@victoria]
-      @victoria.friends.should =~ [@mary, @james]
-      @james.friends.should =~ [@john, @jane, @victoria]
+      @john.friends.all.to_a.should == [@james]
+      @mary.friends.all.to_a.should == [@victoria]
+      @victoria.friends.all.to_a.should =~ [@mary, @james]
+      @james.friends.all.to_a.should =~ [@john, @jane, @victoria]
     end
 
     it "should list unblocked users in invited" do
@@ -364,12 +364,12 @@ shared_examples_for "a friend model" do
     end
 
     it "should list unblocked users in invited by" do
-      @victoria.invited_by.should == [@mary]
-      @james.invited_by.should =~ [@john, @jane, @victoria]
+      @victoria.invited_by.all.to_a.should == [@mary]
+      @james.invited_by.all.to_a.should =~ [@john, @jane, @victoria]
     end
 
     it "should list unblocked users in pending invited" do
-      @victoria.pending_invited.should =~ [@jane, @david]
+      @victoria.pending_invited.all.to_a.should =~ [@jane, @david]
     end
 
     it "should list unblocked users in pending invited by" do
