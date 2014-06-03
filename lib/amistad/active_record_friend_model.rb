@@ -10,7 +10,8 @@ module Amistad
       #####################################################################################
       has_many  :friendships,
         :class_name => "Amistad::Friendships::#{Amistad.friendship_model}",
-        :foreign_key => "friendable_id"
+        :foreign_key => "friendable_id",
+        :dependent => :destroy
 
       has_many  :pending_invited,
         :through => :friendships,
@@ -27,7 +28,8 @@ module Amistad
       #####################################################################################
       has_many  :inverse_friendships,
         :class_name => "Amistad::Friendships::#{Amistad.friendship_model}",
-        :foreign_key => "friend_id"
+        :foreign_key => "friend_id",
+        :dependent => :destroy
 
       has_many  :pending_invited_by,
         :through => :inverse_friendships,
@@ -44,7 +46,8 @@ module Amistad
       #####################################################################################
       has_many  :blocked_friendships,
         :class_name => "Amistad::Friendships::#{Amistad.friendship_model}",
-        :foreign_key => "blocker_id"
+        :foreign_key => "blocker_id",
+        :dependent => :destroy
 
       has_many  :blockades,
         :through => :blocked_friendships,

@@ -54,3 +54,11 @@ task :default do
   Rake::Task['spec:mongoid'].invoke
   Rake::Task['spec:mongo_mapper'].invoke
 end
+
+task :console do
+  require 'irb'
+  require 'irb/completion'
+  require 'amistad' # You know what to do.
+  ARGV.clear
+  IRB.start
+end
