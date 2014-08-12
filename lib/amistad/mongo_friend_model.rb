@@ -2,20 +2,53 @@ module Amistad
   module MongoFriendModel
     # suggest a user to become a friend. If the operation succeeds, the method returns true, else false
     def invite(user)
+      logger = Logger.new(Rails.root.join('log', 'amistad_invite.log'))
       return false if friendshiped_with?(user) or user == self or blocked?(user)
       pending_friend_ids << user.id
       user.pending_inverse_friend_ids << self.id
-      self.save && user.save
+#      self.save && user.save
+
+      if self.save
+        if user.save
+          log_user(logger, user)
+          true
+        else
+          log_user(logger, user)
+          false
+        end
+      else
+        log_user(logger, self)
+        false
+      end
     end
 
     # approve a friendship invitation. If the operation succeeds, the method returns true, else false
     def approve(user)
+      logger = Logger.new(Rails.root.join('log', 'amistad_approve.log'))
       return false unless pending_inverse_friend_ids.include?(user.id) && user.pending_friend_ids.include?(self.id)
       pending_inverse_friend_ids.delete(user.id)
       user.pending_friend_ids.delete(self.id)
       inverse_friend_ids << user.id
       user.friend_ids << self.id
-      self.save && user.save
+ #     self.save && user.save
+      if self.save
+        if user.save
+          log_user(logger, user)
+          true
+        else
+          log_user(logger, user)
+          false
+        end
+      else
+        log_user(logger, self)
+        false
+      end
+    end
+
+    def log_user(logger, user)
+      logger.info('*'*90)
+      logger.info(user.errors)
+      logger.info('*'*90)
     end
 
     # returns the list of approved friends
