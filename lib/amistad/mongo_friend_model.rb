@@ -10,7 +10,6 @@ module Amistad
 
       if self.save
         if user.save
-          log_user(logger, user)
           true
         else
           log_user(logger, user)
@@ -33,7 +32,6 @@ module Amistad
  #     self.save && user.save
       if self.save
         if user.save
-          log_user(logger, user)
           true
         else
           log_user(logger, user)
