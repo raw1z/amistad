@@ -35,17 +35,6 @@ module Amistad
         Array,
         :default => []
 
-      attr_accessible(
-        :friend_ids,
-        :inverse_friend_ids,
-        :pending_friend_ids,
-        :pending_inverse_friend_ids,
-        :blocked_friend_ids,
-        :blocked_inverse_friend_ids,
-        :blocked_pending_friend_ids,
-        :blocked_pending_inverse_friend_ids,
-      )
-
       %w(friend_ids inverse_friend_ids pending_friend_ids pending_inverse_friend_ids blocked_friend_ids blocked_inverse_friend_ids blocked_pending_friend_ids blocked_pending_inverse_friend_ids).each do |attribute|
         define_method(attribute.to_sym) do
           value = read_attribute(attribute)
