@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    amistad (0.9.2)
+    amistad (0.10.0)
       squeel
 
 GEM

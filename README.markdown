@@ -1,6 +1,6 @@
 # amistad #
 
-Amistad adds friendships management into a rails 3.0 application. it supports ActiveRecord 3.0.x, Mongoid 3.0.x and MongoMapper 0.12.0.
+Amistad adds friendships management into a rails application. it supports ActiveRecord, Mongoid and MongoMapper.
 
 ## Installation ##
 
