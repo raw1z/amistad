@@ -1,407 +1,407 @@
 shared_examples_for "a friend model" do
   context "when creating friendships" do
     it "should invite other users to friends" do
-      @john.invite(@jane).should be_true
-      @victoria.invite(@john).should be_true
+      expect(@john.invite(@jane)).to eq(true)
+      expect(@victoria.invite(@john)).to eq(true)
     end
 
     it "should approve only friendships requested by other users" do
-      @john.invite(@jane).should be_true
-      @jane.approve(@john).should be_true
-      @victoria.invite(@john).should be_true
-      @john.approve(@victoria).should be_true
+      expect(@john.invite(@jane)).to eq(true)
+      expect(@jane.approve(@john)).to eq(true)
+      expect(@victoria.invite(@john)).to eq(true)
+      expect(@john.approve(@victoria)).to eq(true)
     end
 
     it "should not invite an already invited user" do
-      @john.invite(@jane).should be_true
-      @john.invite(@jane).should be_false
-      @jane.invite(@john).should be_false
+      expect(@john.invite(@jane)).to eq(true)
+      expect(@john.invite(@jane)).to eq(false)
+      expect(@jane.invite(@john)).to eq(false)
     end
 
     it "should not invite an already approved user" do
-      @john.invite(@jane).should be_true
-      @jane.approve(@john).should be_true
-      @jane.invite(@john).should be_false
-      @john.invite(@jane).should be_false
+      expect(@john.invite(@jane)).to eq(true)
+      expect(@jane.approve(@john)).to eq(true)
+      expect(@jane.invite(@john)).to eq(false)
+      expect(@john.invite(@jane)).to eq(false)
     end
 
     it "should not invite an already blocked user" do
-      @john.invite(@jane).should be_true
-      @jane.block(@john).should be_true
-      @jane.invite(@john).should be_false
-      @john.invite(@jane).should be_false
+      expect(@john.invite(@jane)).to eq(true)
+      expect(@jane.block(@john)).to eq(true)
+      expect(@jane.invite(@john)).to eq(false)
+      expect(@john.invite(@jane)).to eq(false)
     end
 
     it "should not approve a self requested friendship" do
-      @john.invite(@jane).should be_true
-      @john.approve(@jane).should be_false
-      @victoria.invite(@john).should be_true
-      @victoria.approve(@john).should be_false
+      expect(@john.invite(@jane)).to eq(true)
+      expect(@john.approve(@jane)).to eq(false)
+      expect(@victoria.invite(@john)).to eq(true)
+      expect(@victoria.approve(@john)).to eq(false)
     end
 
     it "should not create a friendship with himself" do
-      @john.invite(@john).should be_false
+      expect(@john.invite(@john)).to eq(false)
     end
 
     it "should not approve a non-existent friendship" do
-      @peter.approve(@john).should be_false
+      expect(@peter.approve(@john)).to eq(false)
     end
   end
 
   context "when listing friendships" do
     before(:each) do
-      @john.invite(@jane).should be_true
-      @peter.invite(@john).should be_true
-      @john.invite(@james).should be_true
-      @james.approve(@john).should be_true
-      @mary.invite(@john).should be_true
-      @john.approve(@mary).should be_true
+      expect(@john.invite(@jane)).to eq(true)
+      expect(@peter.invite(@john)).to eq(true)
+      expect(@john.invite(@james)).to eq(true)
+      expect(@james.approve(@john)).to eq(true)
+      expect(@mary.invite(@john)).to eq(true)
+      expect(@john.approve(@mary)).to eq(true)
     end
 
     it "should list all the friends" do
-      @john.friends.should =~ [@mary, @james]
+      expect(@john.friends).to match_array([@mary, @james])
     end
 
     it "should not list non-friended users" do
-      @victoria.friends.should be_empty
-      @john.friends.should =~ [@mary, @james]
-      @john.friends.should_not include(@peter)
-      @john.friends.should_not include(@victoria)
+      expect(@victoria.friends).to be_empty
+      expect(@john.friends).to match_array([@mary, @james])
+      expect(@john.friends).to_not include(@peter)
+      expect(@john.friends).to_not include(@victoria)
     end
 
     it "should list the friends who invited him" do
-      @john.invited_by.should == [@mary]
+      expect(@john.invited_by).to eq([@mary])
     end
 
     it "should list the friends who were invited by him" do
-      @john.invited.should == [@james]
+      expect(@john.invited).to eq([@james])
     end
 
     it "should list the pending friends who invited him" do
-      @john.pending_invited_by.should == [@peter]
+      expect(@john.pending_invited_by).to eq([@peter])
     end
 
     it "should list the pending friends who were invited by him" do
-      @john.pending_invited.should == [@jane]
+      expect(@john.pending_invited).to eq([@jane])
     end
 
     it "should list the friends he has in common with another user" do
-      @james.common_friends_with(@mary).should == [@john]
+      expect(@james.common_friends_with(@mary)).to eq([@john])
     end
 
     it "should not list the friends he does not have in common" do
-      @john.common_friends_with(@mary).count.should == 0
-      @john.common_friends_with(@mary).should_not include(@james)
-      @john.common_friends_with(@peter).count.should == 0
-      @john.common_friends_with(@peter).should_not include(@jane)
+      expect(@john.common_friends_with(@mary).count).to eq(0)
+      expect(@john.common_friends_with(@mary)).to_not include(@james)
+      expect(@john.common_friends_with(@peter).count).to eq(0)
+      expect(@john.common_friends_with(@peter)).to_not include(@jane)
     end
 
     it "should check if a user is a friend" do
-      @john.friend_with?(@mary).should be_true
-      @mary.friend_with?(@john).should be_true
-      @john.friend_with?(@james).should be_true
-      @james.friend_with?(@john).should be_true
+      expect(@john.friend_with?(@mary)).to eq(true)
+      expect(@mary.friend_with?(@john)).to eq(true)
+      expect(@john.friend_with?(@james)).to eq(true)
+      expect(@james.friend_with?(@john)).to eq(true)
     end
 
     it "should check if a user is not a friend" do
-      @john.friend_with?(@jane).should be_false
-      @jane.friend_with?(@john).should be_false
-      @john.friend_with?(@peter).should be_false
-      @peter.friend_with?(@john).should be_false
+      expect(@john.friend_with?(@jane)).to eq(false)
+      expect(@jane.friend_with?(@john)).to eq(false)
+      expect(@john.friend_with?(@peter)).to eq(false)
+      expect(@peter.friend_with?(@john)).to eq(false)
     end
 
     it "should check if a user has any connections with another user" do
-      @john.connected_with?(@jane).should be_true
-      @jane.connected_with?(@john).should be_true
-      @john.connected_with?(@peter).should be_true
-      @peter.connected_with?(@john).should be_true
+      expect(@john.connected_with?(@jane)).to eq(true)
+      expect(@jane.connected_with?(@john)).to eq(true)
+      expect(@john.connected_with?(@peter)).to eq(true)
+      expect(@peter.connected_with?(@john)).to eq(true)
     end
 
     it "should check if a user does not have any connections with another user" do
-      @victoria.connected_with?(@john).should be_false
-      @john.connected_with?(@victoria).should be_false
+      expect(@victoria.connected_with?(@john)).to eq(false)
+      expect(@john.connected_with?(@victoria)).to eq(false)
     end
 
     it "should check if a user was invited by another" do
-      @jane.invited_by?(@john).should be_true
-      @james.invited_by?(@john).should be_true
+      expect(@jane.invited_by?(@john)).to eq(true)
+      expect(@james.invited_by?(@john)).to eq(true)
     end
 
     it "should check if a user was not invited by another" do
-      @john.invited_by?(@jane).should be_false
-      @victoria.invited_by?(@john).should be_false
+      expect(@john.invited_by?(@jane)).to eq(false)
+      expect(@victoria.invited_by?(@john)).to eq(false)
     end
 
     it "should check if a user has invited another user" do
-      @john.invited?(@jane).should be_true
-      @john.invited?(@james).should be_true
+      expect(@john.invited?(@jane)).to eq(true)
+      expect(@john.invited?(@james)).to eq(true)
     end
 
     it "should check if a user did not invite another user" do
-      @jane.invited?(@john).should be_false
-      @james.invited?(@john).should be_false
-      @john.invited?(@victoria).should be_false
-      @victoria.invited?(@john).should be_false
+      expect(@jane.invited?(@john)).to eq(false)
+      expect(@james.invited?(@john)).to eq(false)
+      expect(@john.invited?(@victoria)).to eq(false)
+      expect(@victoria.invited?(@john)).to eq(false)
     end
   end
 
   context "when removing friendships" do
     before(:each) do
-      @jane.invite(@james).should be_true
-      @james.approve(@jane).should be_true
-      @james.invite(@victoria).should be_true
-      @victoria.approve(@james).should be_true
-      @victoria.invite(@mary).should be_true
-      @mary.approve(@victoria).should be_true
-      @victoria.invite(@john).should be_true
-      @john.approve(@victoria).should be_true
-      @peter.invite(@victoria).should be_true
-      @victoria.invite(@elisabeth).should be_true
+      expect(@jane.invite(@james)).to eq(true)
+      expect(@james.approve(@jane)).to eq(true)
+      expect(@james.invite(@victoria)).to eq(true)
+      expect(@victoria.approve(@james)).to eq(true)
+      expect(@victoria.invite(@mary)).to eq(true)
+      expect(@mary.approve(@victoria)).to eq(true)
+      expect(@victoria.invite(@john)).to eq(true)
+      expect(@john.approve(@victoria)).to eq(true)
+      expect(@peter.invite(@victoria)).to eq(true)
+      expect(@victoria.invite(@elisabeth)).to eq(true)
     end
 
     it "should remove the friends invited by him" do
-      @victoria.friends.size.should == 3
-      @victoria.friends.should include(@mary)
-      @victoria.invited.should include(@mary)
-      @mary.friends.size.should == 1
-      @mary.friends.should include(@victoria)
-      @mary.invited_by.should include(@victoria)
+      expect(@victoria.friends.size).to eq(3)
+      expect(@victoria.friends).to include(@mary)
+      expect(@victoria.invited).to include(@mary)
+      expect(@mary.friends.size).to eq(1)
+      expect(@mary.friends).to include(@victoria)
+      expect(@mary.invited_by).to include(@victoria)
 
-      @victoria.remove_friendship(@mary).should be_true
-      @victoria.friends.size.should == 2
-      @victoria.friends.should_not include(@mary)
-      @victoria.invited.should_not include(@mary)
-      @mary.friends.size.should == 0
-      @mary.friends.should_not include(@victoria)
-      @mary.invited_by.should_not include(@victoria)
+      expect(@victoria.remove_friendship(@mary)).to eq(true)
+      expect(@victoria.friends.size).to eq(2)
+      expect(@victoria.friends).to_not include(@mary)
+      expect(@victoria.invited).to_not include(@mary)
+      expect(@mary.friends.size).to eq(0)
+      expect(@mary.friends).to_not include(@victoria)
+      expect(@mary.invited_by).to_not include(@victoria)
     end
 
     it "should remove the friends who invited him" do
-      @victoria.friends.size.should == 3
-      @victoria.friends.should include(@james)
-      @victoria.invited_by.should include(@james)
-      @james.friends.size.should == 2
-      @james.friends.should include(@victoria)
-      @james.invited.should include(@victoria)
+      expect(@victoria.friends.size).to eq(3)
+      expect(@victoria.friends).to include(@james)
+      expect(@victoria.invited_by).to include(@james)
+      expect(@james.friends.size).to eq(2)
+      expect(@james.friends).to include(@victoria)
+      expect(@james.invited).to include(@victoria)
 
-      @victoria.remove_friendship(@james).should be_true
-      @victoria.friends.size.should == 2
-      @victoria.friends.should_not include(@james)
-      @victoria.invited_by.should_not include(@james)
-      @james.friends.size.should == 1
-      @james.friends.should_not include(@victoria)
-      @james.invited.should_not include(@victoria)
+      expect(@victoria.remove_friendship(@james)).to eq(true)
+      expect(@victoria.friends.size).to eq(2)
+      expect(@victoria.friends).to_not include(@james)
+      expect(@victoria.invited_by).to_not include(@james)
+      expect(@james.friends.size).to eq(1)
+      expect(@james.friends).to_not include(@victoria)
+      expect(@james.invited).to_not include(@victoria)
     end
 
     it "should remove the pending friends invited by him" do
-      @victoria.pending_invited.size.should == 1
-      @victoria.pending_invited.should include(@elisabeth)
-      @elisabeth.pending_invited_by.size.should == 1
-      @elisabeth.pending_invited_by.should include(@victoria)
-      @victoria.remove_friendship(@elisabeth).should be_true
+      expect(@victoria.pending_invited.size).to eq(1)
+      expect(@victoria.pending_invited).to include(@elisabeth)
+      expect(@elisabeth.pending_invited_by.size).to eq(1)
+      expect(@elisabeth.pending_invited_by).to include(@victoria)
+      expect(@victoria.remove_friendship(@elisabeth)).to eq(true)
       [@victoria, @elisabeth].map(&:reload)
-      @victoria.pending_invited.size.should == 0
-      @victoria.pending_invited.should_not include(@elisabeth)
-      @elisabeth.pending_invited_by.size.should == 0
-      @elisabeth.pending_invited_by.should_not include(@victoria)
+      expect(@victoria.pending_invited.size).to eq(0)
+      expect(@victoria.pending_invited).to_not include(@elisabeth)
+      expect(@elisabeth.pending_invited_by.size).to eq(0)
+      expect(@elisabeth.pending_invited_by).to_not include(@victoria)
     end
 
     it "should remove the pending friends who invited him" do
-      @victoria.pending_invited_by.count.should == 1
-      @victoria.pending_invited_by.should include(@peter)
-      @peter.pending_invited.count.should == 1
-      @peter.pending_invited.should include(@victoria)
-      @victoria.remove_friendship(@peter).should be_true
+      expect(@victoria.pending_invited_by.count).to eq(1)
+      expect(@victoria.pending_invited_by).to include(@peter)
+      expect(@peter.pending_invited.count).to eq(1)
+      expect(@peter.pending_invited).to include(@victoria)
+      expect(@victoria.remove_friendship(@peter)).to eq(true)
       [@victoria, @peter].map(&:reload)
-      @victoria.pending_invited_by.count.should == 0
-      @victoria.pending_invited_by.should_not include(@peter)
-      @peter.pending_invited.count.should == 0
-      @peter.pending_invited.should_not include(@victoria)
+      expect(@victoria.pending_invited_by.count).to eq(0)
+      expect(@victoria.pending_invited_by).to_not include(@peter)
+      expect(@peter.pending_invited.count).to eq(0)
+      expect(@peter.pending_invited).to_not include(@victoria)
     end
   end
 
   context "when blocking friendships" do
     before(:each) do
-      @john.invite(@james).should be_true
-      @james.approve(@john).should be_true
-      @james.block(@john).should be_true
-      @mary.invite(@victoria).should be_true
-      @victoria.approve(@mary).should be_true
-      @victoria.block(@mary).should be_true
-      @victoria.invite(@david).should be_true
-      @david.block(@victoria).should be_true
-      @john.invite(@david).should be_true
-      @david.block(@john).should be_true
-      @peter.invite(@elisabeth).should be_true
-      @elisabeth.block(@peter).should be_true
-      @jane.invite(@john).should be_true
-      @jane.invite(@james).should be_true
-      @james.approve(@jane).should be_true
-      @victoria.invite(@jane).should be_true
-      @victoria.invite(@james).should be_true
-      @james.approve(@victoria).should be_true
+      expect(@john.invite(@james)).to eq(true)
+      expect(@james.approve(@john)).to eq(true)
+      expect(@james.block(@john)).to eq(true)
+      expect(@mary.invite(@victoria)).to eq(true)
+      expect(@victoria.approve(@mary)).to eq(true)
+      expect(@victoria.block(@mary)).to eq(true)
+      expect(@victoria.invite(@david)).to eq(true)
+      expect(@david.block(@victoria)).to eq(true)
+      expect(@john.invite(@david)).to eq(true)
+      expect(@david.block(@john)).to eq(true)
+      expect(@peter.invite(@elisabeth)).to eq(true)
+      expect(@elisabeth.block(@peter)).to eq(true)
+      expect(@jane.invite(@john)).to eq(true)
+      expect(@jane.invite(@james)).to eq(true)
+      expect(@james.approve(@jane)).to eq(true)
+      expect(@victoria.invite(@jane)).to eq(true)
+      expect(@victoria.invite(@james)).to eq(true)
+      expect(@james.approve(@victoria)).to eq(true)
     end
 
     it "should allow to block author of the invitation by invited user" do
-      @john.block(@jane).should be_true
-      @jane.block(@victoria).should be_true
+      expect(@john.block(@jane)).to eq(true)
+      expect(@jane.block(@victoria)).to eq(true)
     end
 
     it "should not allow to block invited user by invitation author" do
-      @jane.block(@john).should be_false
-      @victoria.block(@jane).should be_false
+      expect(@jane.block(@john)).to eq(false)
+      expect(@victoria.block(@jane)).to eq(false)
     end
 
     it "should allow to block approved users on both sides" do
-      @james.block(@jane).should be_true
-      @victoria.block(@james).should be_true
+      expect(@james.block(@jane)).to eq(true)
+      expect(@victoria.block(@james)).to eq(true)
     end
 
     it "should not allow to block not connected user" do
-      @david.block(@peter).should be_false
-      @peter.block(@david).should be_false
+      expect(@david.block(@peter)).to eq(false)
+      expect(@peter.block(@david)).to eq(false)
     end
 
     it "should not allow to block already blocked user" do
-      @john.block(@jane).should be_true
-      @john.block(@jane).should be_false
-      @james.block(@jane).should be_true
-      @james.block(@jane).should be_false
+      expect(@john.block(@jane)).to eq(true)
+      expect(@john.block(@jane)).to eq(false)
+      expect(@james.block(@jane)).to eq(true)
+      expect(@james.block(@jane)).to eq(false)
     end
 
     it "should list the blocked users" do
-      @jane.blocked.should be_empty
-      @peter.blocked.should be_empty
-      @james.blocked.should == [@john]
-      @victoria.blocked.should == [@mary]
-      @david.blocked.should =~ [@john, @victoria]
+      expect(@jane.blocked).to be_empty
+      expect(@peter.blocked).to be_empty
+      expect(@james.blocked).to eq([@john])
+      expect(@victoria.blocked).to eq([@mary])
+      expect(@david.blocked).to match_array([@john, @victoria])
     end
 
     it "should not list blocked users in friends" do
-      @james.friends.should =~ [@jane, @victoria]
+      expect(@james.friends).to match_array([@jane, @victoria])
       @james.blocked.each do |user|
-        @james.friends.should_not include(user)
-        user.friends.should_not include(@james)
+        expect(@james.friends).to_not include(user)
+        expect(user.friends).to_not include(@james)
       end
     end
 
     it "should not list blocked users in invited" do
-      @victoria.invited.should == [@james]
+      expect(@victoria.invited).to eq([@james])
       @victoria.blocked.each do |user|
-        @victoria.invited.should_not include(user)
-        user.invited_by.should_not include(@victoria)
+        expect(@victoria.invited).to_not include(user)
+        expect(user.invited_by).to_not include(@victoria)
       end
     end
 
     it "should not list blocked users in invited pending by" do
-      @david.pending_invited_by.should be_empty
+      expect(@david.pending_invited_by).to be_empty
       @david.blocked.each do |user|
-        @david.pending_invited_by.should_not include(user)
-        user.pending_invited.should_not include(@david)
+        expect(@david.pending_invited_by).to_not include(user)
+        expect(user.pending_invited).to_not include(@david)
       end
     end
 
     it "should check if a user is blocked" do
-      @james.blocked?(@john).should be_true
-      @victoria.blocked?(@mary).should be_true
-      @david.blocked?(@john).should be_true
-      @david.blocked?(@victoria).should be_true
+      expect(@james.blocked?(@john)).to eq(true)
+      expect(@victoria.blocked?(@mary)).to eq(true)
+      expect(@david.blocked?(@john)).to eq(true)
+      expect(@david.blocked?(@victoria)).to eq(true)
     end
   end
 
   context "when unblocking friendships" do
     before(:each) do
-      @john.invite(@james).should be_true
-      @james.approve(@john).should be_true
-      @john.block(@james).should be_true
-      @john.unblock(@james).should be_true
-      @mary.invite(@victoria).should be_true
-      @victoria.approve(@mary).should be_true
-      @victoria.block(@mary).should be_true
-      @victoria.unblock(@mary).should be_true
-      @victoria.invite(@david).should be_true
-      @david.block(@victoria).should be_true
-      @david.unblock(@victoria).should be_true
-      @john.invite(@david).should be_true
-      @david.block(@john).should be_true
-      @peter.invite(@elisabeth).should be_true
-      @elisabeth.block(@peter).should be_true
-      @jane.invite(@john).should be_true
-      @jane.invite(@james).should be_true
-      @james.approve(@jane).should be_true
-      @victoria.invite(@jane).should be_true
-      @victoria.invite(@james).should be_true
-      @james.approve(@victoria).should be_true
+      expect(@john.invite(@james)).to eq(true)
+      expect(@james.approve(@john)).to eq(true)
+      expect(@john.block(@james)).to eq(true)
+      expect(@john.unblock(@james)).to eq(true)
+      expect(@mary.invite(@victoria)).to eq(true)
+      expect(@victoria.approve(@mary)).to eq(true)
+      expect(@victoria.block(@mary)).to eq(true)
+      expect(@victoria.unblock(@mary)).to eq(true)
+      expect(@victoria.invite(@david)).to eq(true)
+      expect(@david.block(@victoria)).to eq(true)
+      expect(@david.unblock(@victoria)).to eq(true)
+      expect(@john.invite(@david)).to eq(true)
+      expect(@david.block(@john)).to eq(true)
+      expect(@peter.invite(@elisabeth)).to eq(true)
+      expect(@elisabeth.block(@peter)).to eq(true)
+      expect(@jane.invite(@john)).to eq(true)
+      expect(@jane.invite(@james)).to eq(true)
+      expect(@james.approve(@jane)).to eq(true)
+      expect(@victoria.invite(@jane)).to eq(true)
+      expect(@victoria.invite(@james)).to eq(true)
+      expect(@james.approve(@victoria)).to eq(true)
     end
 
     it "should allow to unblock prevoiusly blocked user" do
-      @david.unblock(@john).should be_true
-      @elisabeth.unblock(@peter).should be_true
+      expect(@david.unblock(@john)).to eq(true)
+      expect(@elisabeth.unblock(@peter)).to eq(true)
     end
 
     it "should not allow to unblock not prevoiusly blocked user" do
-      @john.unblock(@jane).should be_false
-      @james.unblock(@jane).should be_false
-      @victoria.unblock(@jane).should be_false
-      @james.unblock(@victoria).should be_false
+      expect(@john.unblock(@jane)).to eq(false)
+      expect(@james.unblock(@jane)).to eq(false)
+      expect(@victoria.unblock(@jane)).to eq(false)
+      expect(@james.unblock(@victoria)).to eq(false)
     end
 
     it "should not allow to unblock blocked user by himself" do
-      @john.unblock(@david).should be_false
-      @peter.unblock(@elisabeth).should be_false
+      expect(@john.unblock(@david)).to eq(false)
+      expect(@peter.unblock(@elisabeth)).to eq(false)
     end
 
     it "should list unblocked users in friends" do
-      @john.friends.should == [@james]
-      @mary.friends.should == [@victoria]
-      @victoria.friends.should =~ [@mary, @james]
-      @james.friends.should =~ [@john, @jane, @victoria]
+      expect(@john.friends).to eq([@james])
+      expect(@mary.friends).to eq([@victoria])
+      expect(@victoria.friends).to match_array([@mary, @james])
+      expect(@james.friends).to match_array([@john, @jane, @victoria])
     end
 
     it "should list unblocked users in invited" do
-      @john.invited.should == [@james]
-      @mary.invited.should == [@victoria]
+      expect(@john.invited).to eq([@james])
+      expect(@mary.invited).to eq([@victoria])
     end
 
     it "should list unblocked users in invited by" do
-      @victoria.invited_by.should == [@mary]
-      @james.invited_by.should =~ [@john, @jane, @victoria]
+      expect(@victoria.invited_by).to eq([@mary])
+      expect(@james.invited_by).to match_array([@john, @jane, @victoria])
     end
 
     it "should list unblocked users in pending invited" do
-      @victoria.pending_invited.should =~ [@jane, @david]
+      expect(@victoria.pending_invited).to match_array([@jane, @david])
     end
 
     it "should list unblocked users in pending invited by" do
-      @david.pending_invited_by.should == [@victoria]
+      expect(@david.pending_invited_by).to eq([@victoria])
     end
   end
 
   context "when counting friendships and blocks" do
     before do
-      @john.invite(@james).should be_true
-      @james.approve(@john).should be_true
-      @john.invite(@victoria).should be_true
-      @victoria.approve(@john).should be_true
-      @elisabeth.invite(@john).should be_true
-      @john.approve(@elisabeth).should be_true
+      expect(@john.invite(@james)).to eq(true)
+      expect(@james.approve(@john)).to eq(true)
+      expect(@john.invite(@victoria)).to eq(true)
+      expect(@victoria.approve(@john)).to eq(true)
+      expect(@elisabeth.invite(@john)).to eq(true)
+      expect(@john.approve(@elisabeth)).to eq(true)
 
-      @victoria.invite(@david).should be_true
-      @david.block(@victoria).should be_true
-      @mary.invite(@victoria).should be_true
-      @victoria.block(@mary).should be_true
+      expect(@victoria.invite(@david)).to eq(true)
+      expect(@david.block(@victoria)).to eq(true)
+      expect(@mary.invite(@victoria)).to eq(true)
+      expect(@victoria.block(@mary)).to eq(true)
     end
 
     it "should return the correct count for total_friends" do
-      @john.total_friends.should == 3
-      @elisabeth.total_friends.should == 1
-      @james.total_friends.should == 1
-      @victoria.total_friends.should == 1
+      expect(@john.total_friends).to eq(3)
+      expect(@elisabeth.total_friends).to eq(1)
+      expect(@james.total_friends).to eq(1)
+      expect(@victoria.total_friends).to eq(1)
     end
 
     it "should return the correct count for total_blocked" do
-      @david.total_blocked.should == 1
-      @victoria.total_blocked.should == 1
+      expect(@david.total_blocked).to eq(1)
+      expect(@victoria.total_blocked).to eq(1)
     end
   end
 end

@@ -13,8 +13,8 @@ module Amistad
         :foreign_key => "friendable_id"
 
 
-      has_many  :pending_invited, -> { where(:'friendships.pending' => true, :'friendships.blocker_id' => nil)}, :through => :friendships, :source => :friend
-      has_many  :invited, -> { where(:'friendships.pending' => false, :'friendships.blocker_id' => nil)}, :through => :friendships, :source => :friend
+      has_many  :pending_invited, -> { where(:'friendships.pending' => true, :'friendships.blocker_id' => nil) }, :through => :friendships, :source => :friend
+      has_many  :invited, -> { where(:'friendships.pending' => false, :'friendships.blocker_id' => nil) }, :through => :friendships, :source => :friend
 
       #####################################################################################
       # inverse friendships
@@ -23,8 +23,8 @@ module Amistad
         :class_name => "Amistad::Friendships::#{Amistad.friendship_model}",
         :foreign_key => "friend_id"
 
-      has_many  :pending_invited_by, ->  { where(:'friendships.pending' => true, :'friendships.blocker_id' => nil)}, :through => :inverse_friendships, :source => :friendable
-      has_many  :invited_by, -> { where(:'friendships.pending' => false, :'friendships.blocker_id' => nil)}, :through => :inverse_friendships, :source => :friendable
+      has_many  :pending_invited_by, ->  { where(:'friendships.pending' => true, :'friendships.blocker_id' => nil) }, :through => :inverse_friendships, :source => :friendable
+      has_many  :invited_by, -> { where(:'friendships.pending' => false, :'friendships.blocker_id' => nil) }, :through => :inverse_friendships, :source => :friendable
 
       #####################################################################################
       # blocked friendships
@@ -57,6 +57,7 @@ module Amistad
       return false if friendship.nil?
       friendship.destroy
       self.reload && user.reload if friendship.destroyed?
+      true
     end
 
     # returns the list of approved friends
