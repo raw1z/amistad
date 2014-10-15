@@ -14,8 +14,6 @@ Gem::Specification.new do |s|
 
   s.rubyforge_project = "amistad"
 
-  s.add_dependency 'squeel'
-
   s.add_development_dependency "bundler"
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec", "~> 3.1.0"
