@@ -4,6 +4,9 @@ pkg/*
 spec/db/*.db
 nbproject
 .rvmrc
+.ruby-version
+.ruby-gemset
+.idea
 *.sw[a-z]
 .rspec
 database.yml
