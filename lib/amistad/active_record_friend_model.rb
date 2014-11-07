@@ -49,6 +49,12 @@ module Amistad
       friendship.update_attribute(:pending, false)
     end
 
+    # adds a friendship directly, without invitation process
+    def add_friendship(user)
+      return false if user == self || find_any_friendship_with(user)
+      Amistad.friendship_class.new{ |f| f.friendable = self ; f.friend = user ; f.pending = false }.save
+    end
+
     # deletes a friendship
     def remove_friendship(user)
       friendship = find_any_friendship_with(user)
