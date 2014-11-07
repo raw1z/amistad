@@ -74,6 +74,14 @@ module Amistad
       self.friend_ids.include?(user.id) or self.pending_friend_ids.include?(user.id)
     end
 
+    # adds a friendship directly, without invitation process
+    def add_friendship(user)
+      return false if friendshiped_with?(user) or user == self or blocked?(user)
+      inverse_friend_ids << user.id
+      user.friend_ids << self.id
+      self.save && user.save
+    end
+
     # deletes a friendship
     def remove_friendship(user)
       friend_ids.delete(user.id)
