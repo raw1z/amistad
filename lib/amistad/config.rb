@@ -11,11 +11,11 @@ module Amistad
     end
 
     def friendship_model
-      "#{self.friend_model}Friendship"
+      "Friendship"
     end
 
     def friendship_class
-      Amistad::Friendships.const_get(self.friendship_model)
+      Amistad::Friendships::Friendship
     end
   end
 end
