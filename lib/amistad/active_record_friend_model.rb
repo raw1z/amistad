@@ -1,5 +1,3 @@
-require 'squeel'
-
 module Amistad
   module ActiveRecordFriendModel
     extend ActiveSupport::Concern
@@ -13,15 +11,9 @@ module Amistad
         :foreign_key => "friendable_id",
         :dependent => :destroy
 
-      has_many  :pending_invited,
-        :through => :friendships,
-        :source => :friend,
-        :conditions => { :'friendships.pending' => true, :'friendships.blocker_id' => nil }
 
-      has_many  :invited,
-        :through => :friendships,
-        :source => :friend,
-        :conditions => { :'friendships.pending' => false, :'friendships.blocker_id' => nil }
+      has_many  :pending_invited, -> { where(:'friendships.pending' => true, :'friendships.blocker_id' => nil) }, :through => :friendships, :source => :friend
+      has_many  :invited, -> { where(:'friendships.pending' => false, :'friendships.blocker_id' => nil) }, :through => :friendships, :source => :friend
 
       #####################################################################################
       # inverse friendships
@@ -31,15 +23,8 @@ module Amistad
         :foreign_key => "friend_id",
         :dependent => :destroy
 
-      has_many  :pending_invited_by,
-        :through => :inverse_friendships,
-        :source => :friendable,
-        :conditions => { :'friendships.pending' => true, :'friendships.blocker_id' => nil }
-
-      has_many  :invited_by,
-        :through => :inverse_friendships,
-        :source => :friendable,
-        :conditions => { :'friendships.pending' => false, :'friendships.blocker_id' => nil }
+      has_many  :pending_invited_by, ->  { where(:'friendships.pending' => true, :'friendships.blocker_id' => nil) }, :through => :inverse_friendships, :source => :friendable
+      has_many  :invited_by, -> { where(:'friendships.pending' => false, :'friendships.blocker_id' => nil) }, :through => :inverse_friendships, :source => :friendable
 
       #####################################################################################
       # blocked friendships
@@ -49,15 +34,9 @@ module Amistad
         :foreign_key => "blocker_id",
         :dependent => :destroy
 
-      has_many  :blockades,
-        :through => :blocked_friendships,
-        :source => :friend,
-        :conditions => "friend_id <> blocker_id"
+      has_many  :blockades, -> {where("friend_id <> blocker_id")}, :through => :blocked_friendships, :source => :friend
+      has_many  :blockades_by, -> {where("friendable_id <> blocker_id")} , :through => :blocked_friendships, :source => :friendable
 
-      has_many  :blockades_by,
-        :through => :blocked_friendships,
-        :source => :friendable,
-        :conditions => "friendable_id <> blocker_id"
     end
 
     # suggest a user to become a friend. If the operation succeeds, the method returns true, else false
@@ -79,28 +58,17 @@ module Amistad
       return false if friendship.nil?
       friendship.destroy
       self.reload && user.reload if friendship.destroyed?
+      true
     end
 
     # returns the list of approved friends
     def friends
       friendship_model = Amistad::Friendships.const_get(:"#{Amistad.friendship_model}")
 
-      approved_friendships = friendship_model.where{
-        ( friendable_id == my{id} ) &
-        ( pending       == false  ) &
-        ( blocker_id    == nil    )
-      }
+      approved_friendship = friendship_model.where(friendable_id: id, pending: false, blocker_id: nil).select(:friend_id).to_sql
+      approved_inverse_friendship = friendship_model.where(friend_id: id, pending: false, blocker_id: nil).select(:friendable_id).to_sql
 
-      approved_inverse_friendships = friendship_model.where{
-        ( friend_id  == my{id} ) &
-        ( pending    == false   ) &
-        ( blocker_id == nil     )
-      }
-
-      self.class.where{
-        ( id.in(approved_friendships.select{friend_id})              ) |
-        ( id.in(approved_inverse_friendships.select{friendable_id})  )
-      }
+      self.class.where("id in (#{approved_friendship}) OR id in (#{approved_inverse_friendship})")
     end
 
     # total # of invited and invited_by without association loading
