@@ -8,7 +8,8 @@ module Amistad
       #####################################################################################
       has_many  :friendships,
         :class_name => "Amistad::Friendships::#{Amistad.friendship_model}",
-        :foreign_key => "friendable_id"
+        :foreign_key => "friendable_id",
+        :dependent => :destroy
 
 
       has_many  :pending_invited, -> { where(:'friendships.pending' => true, :'friendships.blocker_id' => nil) }, :through => :friendships, :source => :friend
@@ -19,7 +20,8 @@ module Amistad
       #####################################################################################
       has_many  :inverse_friendships,
         :class_name => "Amistad::Friendships::#{Amistad.friendship_model}",
-        :foreign_key => "friend_id"
+        :foreign_key => "friend_id",
+        :dependent => :destroy
 
       has_many  :pending_invited_by, ->  { where(:'friendships.pending' => true, :'friendships.blocker_id' => nil) }, :through => :inverse_friendships, :source => :friendable
       has_many  :invited_by, -> { where(:'friendships.pending' => false, :'friendships.blocker_id' => nil) }, :through => :inverse_friendships, :source => :friendable
@@ -29,7 +31,8 @@ module Amistad
       #####################################################################################
       has_many  :blocked_friendships,
         :class_name => "Amistad::Friendships::#{Amistad.friendship_model}",
-        :foreign_key => "blocker_id"
+        :foreign_key => "blocker_id",
+        :dependent => :destroy
 
       has_many  :blockades, -> {where("friend_id <> blocker_id")}, :through => :blocked_friendships, :source => :friend
       has_many  :blockades_by, -> {where("friendable_id <> blocker_id")} , :through => :blocked_friendships, :source => :friendable
