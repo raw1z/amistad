@@ -13,7 +13,7 @@ module Amistad
 
       belongs_to :blocker,
         :class_name => Amistad.friend_model,
-        :foreign_key => "blocker_id"
+        :foreign_key => "blocker_id", optional: true
 
       validates_presence_of :friendable_id, :friend_id
       validates_uniqueness_of :friend_id, :scope => :friendable_id
